@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Improved Window Shuffle Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            font-size: 1.2em;
+            color: #555;
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        .debug-button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: #fff;
+        }
+        .debug-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Limbo</h1>
+    <p>Enable Popups!</p>
+
+    <div class="button-container">
+        <!-- Start Game Button -->
+        <button class="debug-button" onclick="startGame()">Start Game</button>
+    </div>
+
+    <script>
+        const windows = [];
+        let positions = [];
+        let gridIDs = [];
+        const gridSize = { rows: 4, cols: 2 };
+        const windowSize = { width: 100, height: 100 };
+        const spacing = { x: 200, y: 200 };
+        let shuffleCount = 0;
+        const shuffleLimit = 25;
+        const shuffleDuration = 300;
+        const backgroundImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOMTltSHC_SD6H1_rTH-u21EpNZK6WGTL7RATB8J6dRkP79ttdtXalKp5B72Mtetnto9Y:https://tr.rbxcdn.com/180DAY-16dbf713e3a4e631d4d0799173ea1656/500/280/Image/Jpeg/noFilter&usqp=CAU";
+
+        const shufflePatterns = [
+            { 1: 8, 2: 7, 3: 6, 4: 5, 5: 4, 6: 3, 7: 2, 8: 1 },
+            { 1: 2, 2: 1, 3: 4, 4: 3, 5: 6, 6: 5, 7: 8, 8: 7 },
+            { 1: 4, 2: 3, 3: 2, 4: 1, 5: 8, 6: 7, 7: 6, 8: 5 },
+            { 1: 3, 2: 4, 3: 1, 4: 2, 5: 7, 6: 8, 7: 5, 8: 6 }
+        ];
+
+        function openWindows() {
+            const screenWidth = window.innerWidth;
+            const offsetX = (screenWidth - (gridSize.cols * spacing.x)) / 2;
+
+            for (let i = 0; i < gridSize.rows * gridSize.cols; i++) {
+                const x = offsetX + (i % gridSize.cols) * spacing.x;
+                const y = Math.floor(i / gridSize.cols) * spacing.y;
+
+                const win = window.open('', '_blank', `width=${windowSize.width},height=${windowSize.height},left=${x},top=${y}`);
+                win.document.write(`
+                    <style>
+                        body {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            font-family: Arial;
+                            color: white;
+                            margin: 0;
+                            background-color: black;
+                        }
+                        .image-container {
+                            position: relative;
+                        }
+                        img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                            transition: filter 2s ease-in-out; /* Smooth transition for the filter */
+                        }
+                    </style>
+                    <div class="image-container">
+                        <img src="${backgroundImage}" id="windowImage${i}" alt="Game Image">
+                    </div>
+                `);
+                windows.push(win);
+                gridIDs.push(i + 1);
+                positions.push({ x, y });
+
+                win.correctWindow = false;
+                win.addEventListener('click', () => {
+                    if (win.correctWindow) {
+                        window.postMessage('win', '*');
+                    } else {
+                        window.postMessage('lose', '*');
+                    }
+                });
+            }
+        }
+
+        function shuffleGrid(patternIndex) {
+            const pattern = shufflePatterns[patternIndex];
+            const newPositions = [];
+            for (const currentID in pattern) {
+                const targetID = pattern[currentID];
+                const fromIndex = gridIDs.indexOf(parseInt(currentID));
+                const toIndex = gridIDs.indexOf(parseInt(targetID));
+
+                newPositions[toIndex] = positions[fromIndex];
+                moveWindow(windows[fromIndex], positions[fromIndex], positions[toIndex]);
+            }
+            positions = newPositions;
+        }
+
+        function moveWindow(win, from, to) {
+            let steps = 10, count = 0;
+            const dx = (to.x - from.x) / steps, dy = (to.y - from.y) / steps;
+
+            const interval = setInterval(() => {
+                count++;
+                win.moveTo(from.x + dx * count, from.y + dy * count);
+                if (count === steps) clearInterval(interval);
+            }, shuffleDuration / steps);
+        }
+
+        function startGame() {
+            openWindows();
+
+            const targetWindowIndex = Math.floor(Math.random() * windows.length);
+            windows[targetWindowIndex].correctWindow = true;
+
+            // Apply the 90deg hue filter to the correct window's image (ease-in)
+            const image = windows[targetWindowIndex].document.getElementById(`windowImage${targetWindowIndex}`);
+            
+            // Initially, apply the transition property for easing
+            image.style.transition = "filter 2s ease-in-out"; // Transition set here
+            image.style.filter = "hue-rotate(90deg)"; 
+            
+            // After 2 seconds, fade out the hue effect smoothly (0.5 seconds fade duration)
+            setTimeout(() => {
+                image.style.transition = "filter 0.5s ease-out"; // Fade out transition
+                image.style.filter = "none"; // Reset the hue filter after the fade
+                shuffle(); // Start the shuffle process after fading out
+            }, 2000); // 2 seconds for the initial hue transition
+        }
+
+        function shuffle() {
+            const interval = setInterval(() => {
+                shuffleGrid(Math.floor(Math.random() * shufflePatterns.length));
+                shuffleCount++;
+                if (shuffleCount >= shuffleLimit) {
+                    clearInterval(interval);
+                    changeImages(); // Change the images after shuffling
+                }
+            }, shuffleDuration);
+        }
+
+        // Change the image in each window after the shuffle process
+        function changeImages() {
+            for (let i = 0; i < windows.length; i++) {
+                const win = windows[i];
+                const windowImage = win.document.getElementById(`windowImage${i}`);
+                const key = 'key'; // Define your key here (e.g., 'key')
+                windowImage.src = `${key}${gridIDs[i]}.png`; // Change the image to key + windowID.png
+            }
+        }
+
+        window.addEventListener('message', (event) => {
+            if (event.data === 'win') {
+                alert('You win!');
+            } else {
+                alert('Wrong key. Try again!');
+            }
+            closeAllWindows();
+        });
+
+        function closeAllWindows() {
+            windows.forEach(win => win.close());
+        }
+
+        function activatePattern(patternIndex) {
+            shuffleGrid(patternIndex);
+        }
+    </script>
+</body>
+</html>
