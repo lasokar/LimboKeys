@@ -143,19 +143,16 @@
             const targetWindowIndex = Math.floor(Math.random() * windows.length);
             windows[targetWindowIndex].correctWindow = true;
 
-            // Apply the 90deg hue filter to the correct window's image (ease-in)
+            // Change the image to green-key.png for the correct window
             const image = windows[targetWindowIndex].document.getElementById(`windowImage${targetWindowIndex}`);
-            
-            // Initially, apply the transition property for easing
-            image.style.transition = "filter 2s ease-in-out"; // Transition set here
-            image.style.filter = "hue-rotate(90deg)"; 
-            
-            // After 2 seconds, fade out the hue effect smoothly (0.5 seconds fade duration)
+            const key = 'key'; // Define your key here (e.g., 'key')
+            image.src = `green-key.png`; // Change to green-key.png
+
+            // After 2 seconds, revert the image back to the original
             setTimeout(() => {
-                image.style.transition = "filter 0.5s ease-out"; // Fade out transition
-                image.style.filter = "none"; // Reset the hue filter after the fade
-                shuffle(); // Start the shuffle process after fading out
-            }, 2000); // 2 seconds for the initial hue transition
+                image.src = `${key}${gridIDs[targetWindowIndex] - 1}.png`; // Revert to key+gridID-1.png
+                shuffle(); // Start the shuffle process after reverting the image
+            }, 2000); // 2 seconds to display the green image
         }
 
         function shuffle() {
