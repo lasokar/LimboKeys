@@ -195,7 +195,7 @@
             let angleOffset = 0; // Initial angle offset for rotation
 
             setInterval(() => {
-                angleOffset += 0.01; // Adjust this value for slower/faster spinning
+                angleOffset += 1; // Adjust this value for slower/faster spinning
 
                 for (let i = 0; i < windowCount; i++) {
                     const angle = angleOffset + (i * (2 * Math.PI / windowCount));
