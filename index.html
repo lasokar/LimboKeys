@@ -101,8 +101,10 @@
                 gridIDs.push(i + 1);
                 positions.push({ x, y });
 
+                // Initialize correctWindow as false, this will be updated later
                 win.correctWindow = false;
                 win.addEventListener('click', () => {
+                    // The correct window will only react after the game starts
                     if (win.correctWindow) {
                         window.postMessage('win', '*');
                     } else {
@@ -161,50 +163,10 @@
                 shuffleCount++;
                 if (shuffleCount >= shuffleLimit) {
                     clearInterval(interval);
-                    arrangeInCircle(); // Arrange the windows in a circle after shuffling
                     changeImages(); // Change the images after shuffling
-                    startSpinning(); // Start the spinning animation
+                    spinCircle(); // Start spinning after shuffling
                 }
             }, shuffleDuration);
-        }
-
-        // Function to arrange the windows in a circle
-        function arrangeInCircle() {
-            const centerX = window.innerWidth / 2;
-            const centerY = window.innerHeight / 2;
-            const radius = 300; // Increase the radius by 1.5x (200 * 1.5 = 300)
-            const windowCount = windows.length;
-            const angleStep = (2 * Math.PI) / windowCount;
-
-            for (let i = 0; i < windowCount; i++) {
-                const angle = angleStep * i;
-                const x = centerX + radius * Math.cos(angle);
-                const y = centerY + radius * Math.sin(angle);
-
-                moveWindow(windows[i], positions[i], { x, y });
-                positions[i] = { x, y }; // Update positions to the new circular positions
-            }
-        }
-
-        // Function to start spinning the windows slowly in a circle
-        function startSpinning() {
-            const centerX = window.innerWidth / 2;
-            const centerY = window.innerHeight / 2;
-            const radius = 300; // Same radius used for arranging windows
-            const windowCount = windows.length;
-            let angleOffset = 0; // Initial angle offset for rotation
-
-            setInterval(() => {
-                angleOffset += 1; // Adjust this value for slower/faster spinning
-
-                for (let i = 0; i < windowCount; i++) {
-                    const angle = angleOffset + (i * (2 * Math.PI / windowCount));
-                    const x = centerX + radius * Math.cos(angle);
-                    const y = centerY + radius * Math.sin(angle);
-                    moveWindow(windows[i], positions[i], { x, y });
-                    positions[i] = { x, y }; // Update positions to reflect new angle
-                }
-            }, 10); // Update the positions every 10ms
         }
 
         // Change the image in each window after the shuffle process
@@ -218,6 +180,23 @@
             }
         }
 
+        // Animate windows in a spinning circle
+        function spinCircle() {
+            const radius = 300; // Radius of the spinning circle
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            const numWindows = windows.length;
+            const angleStep = (2 * Math.PI) / numWindows;
+
+            windows.forEach((win, i) => {
+                const angle = i * angleStep;
+                const x = centerX + radius * Math.cos(angle) - windowSize.width / 2;
+                const y = centerY + radius * Math.sin(angle) - windowSize.height / 2;
+
+                moveWindow(win, positions[i], { x, y });
+            });
+        }
+
         window.addEventListener('message', (event) => {
             if (event.data === 'win') {
                 alert('You win!');
@@ -225,6 +204,9 @@
                 alert('Wrong key. Try again!');
             }
             closeAllWindows();
+            setTimeout(() => {
+                location.reload(); // Refresh the page after the game ends
+            }, 3000); // Refresh after 3 seconds
         });
 
         function closeAllWindows() {
