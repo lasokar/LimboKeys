@@ -54,7 +54,7 @@
         let shuffleCount = 0;
         const shuffleLimit = 25;
         const shuffleDuration = 300;
-        const backgroundImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOMTltSHC_SD6H1_rTH-u21EpNZK6WGTL7RATB8J6dRkP79ttdtXalKp5B72Mtetnto9Y:https://tr.rbxcdn.com/180DAY-16dbf713e3a4e631d4d0799173ea1656/500/280/Image/Jpeg/noFilter&usqp=CAU";
+        const backgroundImage = 'key.png';
 
         const shufflePatterns = [
             { 1: 8, 2: 7, 3: 6, 4: 5, 5: 4, 6: 3, 7: 2, 8: 1 },
@@ -161,9 +161,50 @@
                 shuffleCount++;
                 if (shuffleCount >= shuffleLimit) {
                     clearInterval(interval);
+                    arrangeInCircle(); // Arrange the windows in a circle after shuffling
                     changeImages(); // Change the images after shuffling
+                    startSpinning(); // Start the spinning animation
                 }
             }, shuffleDuration);
+        }
+
+        // Function to arrange the windows in a circle
+        function arrangeInCircle() {
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            const radius = 300; // Increase the radius by 1.5x (200 * 1.5 = 300)
+            const windowCount = windows.length;
+            const angleStep = (2 * Math.PI) / windowCount;
+
+            for (let i = 0; i < windowCount; i++) {
+                const angle = angleStep * i;
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+
+                moveWindow(windows[i], positions[i], { x, y });
+                positions[i] = { x, y }; // Update positions to the new circular positions
+            }
+        }
+
+        // Function to start spinning the windows slowly in a circle
+        function startSpinning() {
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            const radius = 300; // Same radius used for arranging windows
+            const windowCount = windows.length;
+            let angleOffset = 0; // Initial angle offset for rotation
+
+            setInterval(() => {
+                angleOffset += 0.01; // Adjust this value for slower/faster spinning
+
+                for (let i = 0; i < windowCount; i++) {
+                    const angle = angleOffset + (i * (2 * Math.PI / windowCount));
+                    const x = centerX + radius * Math.cos(angle);
+                    const y = centerY + radius * Math.sin(angle);
+                    moveWindow(windows[i], positions[i], { x, y });
+                    positions[i] = { x, y }; // Update positions to reflect new angle
+                }
+            }, 10); // Update the positions every 10ms
         }
 
         // Change the image in each window after the shuffle process
