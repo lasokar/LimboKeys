@@ -175,7 +175,8 @@
                 const win = windows[i];
                 const windowImage = win.document.getElementById(`windowImage${i}`);
                 const key = 'key'; // Define your key here (e.g., 'key')
-                windowImage.src = `${key}${gridIDs[i]}.png`; // Change the image to key + windowID.png
+                const imageId = gridIDs[i] - 1; // Subtract 1 from gridID for image ID
+                windowImage.src = `${key}${imageId}.png`; // Change the image to key + (gridID - 1).png
             }
         }
 
