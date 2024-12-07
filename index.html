@@ -73,7 +73,7 @@
 
         for (let i = 0; i < gridSize.rows * gridSize.cols; i++) {
             const x = offsetX + (i % gridSize.cols) * spacing.x;
-            const y = Math.floor(i / gridSize.cols) * spacing.y;
+            const y = Math.floor(i / gridSize.cols) * spacing.y + 100;
 
             const win = window.open('', '_blank', `width=${windowSize.width},height=${windowSize.height},left=${x},top=${y}`);
             win.document.write(`
