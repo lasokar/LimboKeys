@@ -151,19 +151,27 @@ function shuffleGrid(patternIndex) {
     const newPositions = [];
     const newGridIDs = Array(gridIDs.length); // Temporary array for updated IDs
 
+    // Step 1: Calculate new positions and map grid IDs according to the pattern
     for (const currentID in pattern) {
         const targetID = pattern[currentID];
         const fromIndex = gridIDs.indexOf(parseInt(currentID));
         const toIndex = gridIDs.indexOf(parseInt(targetID));
 
-        newPositions[toIndex] = positions[fromIndex];
-        newGridIDs[toIndex] = gridIDs[fromIndex]; // Update the gridIDs mapping
-
-        moveWindow(windows[fromIndex], positions[fromIndex], positions[toIndex]);
+        // Correctly map positions according to the pattern
+        newPositions[fromIndex] = positions[toIndex];
+        newGridIDs[fromIndex] = gridIDs[toIndex]; // Update gridID mapping based on pattern
     }
 
+    // Step 2: Move windows based on the new positions
+    for (let i = 0; i < windows.length; i++) {
+        if (newPositions[i]) {
+            moveWindow(windows[i], positions[i], newPositions[i]); // Apply move only if a new position exists
+        }
+    }
+
+    // Step 3: Update the positions and gridIDs arrays after the move
     positions = newPositions;
-    gridIDs = newGridIDs; // Update gridIDs to reflect the new arrangement
+    gridIDs = newGridIDs;
 }
 
     function moveWindow(win, from, to) {
