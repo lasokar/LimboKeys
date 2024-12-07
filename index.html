@@ -275,6 +275,7 @@
             newDiv.style.color = 'white';
             newDiv.style.textAlign = 'center';
             newDiv.style.borderRadius = '10px';
+            newDiv.style.display = 'none';
 
             const message = document.createElement('p');
             message.id = 'resultMessage';
@@ -296,8 +297,10 @@
 
         const message = document.getElementById('resultMessage');
         if (event.data === 'win') {
+            resultDiv.style.display = 'block';
             message.textContent = 'You win!';
         } else if (event.data === 'lose') {
+            resultDiv.style.display = 'block';
             message.textContent = 'Wrong key. Try again!';
         }
 
