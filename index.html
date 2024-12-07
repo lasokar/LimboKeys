@@ -42,7 +42,6 @@
         <button id="startGameBtn" class="start-button" onclick="startGame()">Start Game</button>
     </div>
 
-    <!-- Audio element for the background music -->
     <audio id="limboAudio" src="limbo.mp3" preload="auto"></audio>
 
 <script>
@@ -77,11 +76,9 @@
     ];
 
     function openTestPopups() {
-        // Try to open two popup windows
         const win1 = window.open('', '_blank', 'width=200,height=200');
         const win2 = window.open('', '_blank', 'width=200,height=200');
         
-        // Check if popups were successfully opened
         if (win1 && win2) {
             if (startGameBtn.style.display == 'none') {
 		location.reload();
@@ -136,7 +133,6 @@ function openWindows() {
         gridIDs.push(i + 1);
         positions.push({ x, y });
 
-        // Disable the click event handler initially
         win.correctWindow = false;
         win.addEventListener('click', () => {
             if (canClickWindows) {
@@ -151,20 +147,17 @@ function openWindows() {
 }
 
     function flashCorrectKeyImage() {
-        const correctIndex = Math.floor(Math.random() * windows.length); // Randomly select the correct window
+        const correctIndex = Math.floor(Math.random() * windows.length);
         const win = windows[correctIndex];
         const windowImage = win.document.getElementById(`windowImage${correctIndex}`);
         const correctKeyImage = 'green-key.png';
 
-        // Change the image to green-key.png
         windowImage.src = correctKeyImage;
 
-        // After 1 second, revert back to the original key.png
         setTimeout(() => {
-            windowImage.src = `${backgroundImage}`; // Change back to key.png
+            windowImage.src = `${backgroundImage}`;
         }, 1000);
 
-        // Mark the correct window
         win.correctWindow = true;
     }
 
@@ -175,9 +168,9 @@ function openWindows() {
             if (shuffleCount >= shuffleLimit) {
                 clearInterval(interval);
                 setTimeout(() => {
-                    changeImages(); // Change images before circle formation
-                    positionWindowsInCircle(); // Smoothly move to circle after 1s delay
-		    canClickWindows = true;  // Enable clicking windows
+                    changeImages();
+                    positionWindowsInCircle();
+		    canClickWindows = true;
                 }, 500);
             }
         }, shuffleDuration);
@@ -186,27 +179,23 @@ function openWindows() {
 function shuffleGrid(patternIndex) {
     const pattern = shufflePatterns[patternIndex];
     const newPositions = [];
-    const newGridIDs = Array(gridIDs.length); // Temporary array for updated IDs
+    const newGridIDs = Array(gridIDs.length);
 
-    // Step 1: Calculate new positions and map grid IDs according to the pattern
     for (const currentID in pattern) {
         const targetID = pattern[currentID];
         const fromIndex = gridIDs.indexOf(parseInt(currentID));
         const toIndex = gridIDs.indexOf(parseInt(targetID));
 
-        // Correctly map positions according to the pattern
         newPositions[fromIndex] = positions[toIndex];
-        newGridIDs[fromIndex] = gridIDs[toIndex]; // Update gridID mapping based on pattern
+        newGridIDs[fromIndex] = gridIDs[toIndex];
     }
 
-    // Step 2: Move windows based on the new positions
     for (let i = 0; i < windows.length; i++) {
         if (newPositions[i]) {
-            moveWindow(windows[i], positions[i], newPositions[i]); // Apply move only if a new position exists
+            moveWindow(windows[i], positions[i], newPositions[i]);
         }
     }
 
-    // Step 3: Update the positions and gridIDs arrays after the move
     positions = newPositions;
     gridIDs = newGridIDs;
 }
@@ -222,18 +211,16 @@ function shuffleGrid(patternIndex) {
         }, shuffleDuration / steps);
     }
 
-    // Change the image in each window after the shuffle process
     function changeImages() {
         for (let i = 0; i < windows.length; i++) {
             const win = windows[i];
             const windowImage = win.document.getElementById(`windowImage${i}`);
-            const key = 'key'; // Define your key here (e.g., 'key')
-            const imageId = gridIDs[i] - 1; // Subtract 1 from gridID for image ID
-            windowImage.src = `${key}${imageId}.png`; // Change the image to key + (gridID - 1).png
+            const key = 'key';
+            const imageId = gridIDs[i];
+            windowImage.src = `${key}${imageId}.png`;
         }
     }
 
-// Smoothly position the windows in a circle with image spin
 function positionWindowsInCircle() {
     const angleStep = (2 * Math.PI) / windows.length;
     const centerX = window.innerWidth / 2;
@@ -243,22 +230,18 @@ function positionWindowsInCircle() {
 
     const interval = setInterval(() => {
         count++;
-        const progress = count / steps; // Animation progress (0 to 1)
+        const progress = count / steps;
         windows.forEach((win, i) => {
             const angle = i * angleStep;
             const targetX = centerX + circleRadius * Math.cos(angle) - windowSize.width / 2;
             const targetY = centerY + circleRadius * Math.sin(angle) - windowSize.height / 2;
 
-            // Get the window's image element
             const windowImage = win.document.getElementById(`windowImage${i}`);
             
-            // Calculate the rotation angle (180 degrees during the animation)
-            const rotationAngle = -360 * progress * 4;  // Key rotation
+            const rotationAngle = -360 * progress * 4;
 
-            // Apply rotation to the image
-            windowImage.style.transform = `rotate(${rotationAngle}deg)`;  // Apply the rotation transformation
+            windowImage.style.transform = `rotate(${rotationAngle}deg)`;
 
-            // Move the window
             const currentX = parseInt(win.screenX);
             const currentY = parseInt(win.screenY);
             const newX = currentX + (targetX - currentX) * progress;
@@ -269,22 +252,20 @@ function positionWindowsInCircle() {
 
         if (count >= steps / 4) {
             clearInterval(interval);
-            spinCircle(); // Start spinning after circle formation
+            spinCircle();
         }
     }, transitionDuration / steps);
 }
 
-    // Spin the circle continuously
     function spinCircle() {
         let rotationAngle = 0;
-        let spinSpeed = 0; // Initial speed for rotation
-        const accelerationRate = 0.05; // How much the speed increases each step
-        const maxSpeed = 1.5; // Maximum rotation increment (faster spin)
+        let spinSpeed = 0;
+        const accelerationRate = 0.05;
+        const maxSpeed = 1.5;
 
         function spinStep() {
-            rotationAngle += spinSpeed; // Increase rotation angle by spinSpeed
+            rotationAngle += spinSpeed;
 
-            // Update position of each window based on new rotation angle
             windows.forEach((win, i) => {
                 const angle = (i * (2 * Math.PI) / windows.length) + (rotationAngle * Math.PI / 180);
                 const x = window.innerWidth / 2 + circleRadius * Math.cos(angle) - windowSize.width / 2;
@@ -292,30 +273,26 @@ function positionWindowsInCircle() {
                 win.moveTo(x, y);
             });
 
-            // Reset rotation angle to avoid overflow
             if (rotationAngle >= 360) {
                 rotationAngle = 0;
             }
 
-            // Increase the spin speed, but ensure it doesn't exceed maxSpeed
             spinSpeed = Math.min(maxSpeed, spinSpeed + accelerationRate);
 
-            // Keep the spinning going
-            setTimeout(spinStep, 50); // Adjust the timeout as necessary for smoothness
+            setTimeout(spinStep, 50);
         }
 
-        spinStep(); // Start the spinning process
+        spinStep();
     }
 
     function startGame() {
         document.getElementById('startGameBtn').style.display = 'none';
         document.getElementById('title').style.display = 'none';
 	document.body.style.backgroundImage = "url('LimboBG.png')";
-        document.body.style.backgroundSize = 'cover'; // Make sure it covers the whole window
+        document.body.style.backgroundSize = 'cover';
 	    
-        // Start music and set it to 3:00
         const audio = document.getElementById('limboAudio');
-        audio.currentTime = 180; // 3:00 in seconds
+        audio.currentTime = 180;
         audio.play();
 
         openWindows();
@@ -325,7 +302,6 @@ function positionWindowsInCircle() {
         }, 1000);
     }
 
-    // Listen for win/lose message and update the page accordingly
     window.addEventListener('message', (event) => {
         const resultDiv = document.getElementById('resultDiv');
         if (!resultDiv) {
@@ -347,32 +323,32 @@ function positionWindowsInCircle() {
             newDiv.appendChild(message);
 
             const button = document.createElement('button');
-            button.textContent = 'Try Again';
             button.style.padding = '10px 20px';
             button.style.cursor = 'pointer';
             button.style.fontSize = '16px';
             button.style.marginTop = '20px';
-	    	button.style.backgroundImage = 'url("retry.png")';
-			button.style.backgroundSize = 'contain';  // Make sure the image fits within the button
-			button.style.backgroundRepeat = 'no-repeat';  // Prevent the image from repeating
-			button.style.border = 'none';  // Remove any borders
-			button.style.outline = 'none';  // Remove any outlines
-			button.style.width = '100px';  // Set the desired width of the button
-			button.style.height = '50px';  // Set the desired height of the button
-			button.style.padding = '0';  // Remove any padding to keep the size consistent
-			button.style.cursor = 'pointer';
+	    button.style.backgroundImage = 'url("retry.png")';
+	    button.style.backgroundSize = 'contain';
+	    button.style.backgroundRepeat = 'no-repeat';
+	    button.style.backgroundPosition = 'center';
+	    button.style.border = 'none';
+	    button.style.outline = 'none';
+	    button.style.width = '100px';
+	    button.style.height = '100px';
+	    button.style.padding = '0';
+	    button.style.cursor = 'pointer';
 
-	    	button.addEventListener('mouseenter', function() {
- 	    	    button.style.transform = 'scale(1.1)';  // Increase size by 10% when hovered
-	    	    button.style.transition = 'transform 0.2s';  // Smooth transition for the scaling effect
-	    	});
+	    button.addEventListener('mouseenter', function() {
+ 	    	button.style.transform = 'scale(1.1)';
+	    	button.style.transition = 'transform 0.2s';
+	    });
 
-	    	button.addEventListener('mouseleave', function() {
-	    	    button.style.transform = 'scale(1)';  // Reset to original size when the mouse leaves
-	   		});
+	    button.addEventListener('mouseleave', function() {
+	    	button.style.transform = 'scale(1)';
+	   });
 
             button.onclick = () => {
-                location.reload(); // Reload the page when button is clicked
+                location.reload();
             };
             newDiv.appendChild(button);
 
