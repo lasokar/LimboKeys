@@ -75,54 +75,58 @@
         { 1: 3, 2: 1, 3: 5, 4: 2, 5: 7, 6: 4, 7: 8, 8: 6 },
     ];
 
+let canClickWindows = false;  // Flag to track if windows can be clicked
 
-    function openWindows() {
-        const screenWidth = window.innerWidth;
-        const offsetX = (screenWidth - (gridSize.cols * spacing.x)) / 2;
+function openWindows() {
+    const screenWidth = window.innerWidth;
+    const offsetX = (screenWidth - (gridSize.cols * spacing.x)) / 2;
 
-        for (let i = 0; i < gridSize.rows * gridSize.cols; i++) {
-            const x = offsetX + (i % gridSize.cols) * spacing.x;
-            const y = Math.floor(i / gridSize.cols) * spacing.y + 100;
+    for (let i = 0; i < gridSize.rows * gridSize.cols; i++) {
+        const x = offsetX + (i % gridSize.cols) * spacing.x;
+        const y = Math.floor(i / gridSize.cols) * spacing.y + 100;
 
-            const win = window.open('', '_blank', `width=${windowSize.width},height=${windowSize.height},left=${x},top=${y}`);
-            win.document.write(`
-                <style>
-                    body {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        font-family: Arial;
-                        color: white;
-                        margin: 0;
-                        background-color: black;
-                    }
-                    .image-container {
-                        position: relative;
-                    }
-                    img {
-                        width: 100%;
-                        height: 100%;
-                        object-fit: cover;
-                    }
-                </style>
-                <div class="image-container">
-                    <img src="${backgroundImage}" id="windowImage${i}" alt="Game Image">
-                </div>
-            `);
-            windows.push(win);
-            gridIDs.push(i + 1);
-            positions.push({ x, y });
+        const win = window.open('', '_blank', `width=${windowSize.width},height=${windowSize.height},left=${x},top=${y}`);
+        win.document.write(`
+            <style>
+                body {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-family: Arial;
+                    color: white;
+                    margin: 0;
+                    background-color: black;
+                }
+                .image-container {
+                    position: relative;
+                }
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            </style>
+            <div class="image-container">
+                <img src="${backgroundImage}" id="windowImage${i}" alt="Game Image">
+            </div>
+        `);
+        windows.push(win);
+        gridIDs.push(i + 1);
+        positions.push({ x, y });
 
-            win.correctWindow = false;
-            win.addEventListener('click', () => {
+        // Disable the click event handler initially
+        win.correctWindow = false;
+        win.addEventListener('click', () => {
+            if (canClickWindows) {
                 if (win.correctWindow) {
                     window.postMessage('win', '*');
                 } else {
                     window.postMessage('lose', '*');
                 }
-            });
-        }
+            }
+        });
     }
+}
 
     function flashCorrectKeyImage() {
         const correctIndex = Math.floor(Math.random() * windows.length); // Randomly select the correct window
@@ -151,6 +155,7 @@
                 setTimeout(() => {
                     changeImages(); // Change images before circle formation
                     positionWindowsInCircle(); // Smoothly move to circle after 1s delay
+		    canClickWindows = true;  // Enable clicking windows
                 }, 500);
             }
         }, shuffleDuration);
