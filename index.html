@@ -43,6 +43,9 @@
         <button class="debug-button" onclick="startGame()">Start Game</button>
     </div>
 
+    <!-- Audio element for the background music -->
+    <audio id="limboAudio" src="limbo.mp3" preload="auto"></audio>
+
     <script>
         const windows = [];
         let positions = [];
@@ -245,13 +248,17 @@
         }
 
         function startGame() {
+            // Start music and set it to 3:00
+            const audio = document.getElementById('limboAudio');
+            audio.currentTime = 180; // 3:00 in seconds
+            audio.play();
+
             openWindows();
             flashCorrectKeyImage();
             setTimeout(() => {
                 shuffle();
             }, 1000);
         }
-
 		window.addEventListener('message', (event) => {
 		    if (event.data === 'win') {
  	       alert('You win!');
