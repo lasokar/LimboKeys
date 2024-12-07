@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Limbo Keys</title>
+    <title>Improved Window Shuffle Game</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -36,7 +36,7 @@
     </style>
 </head>
 <body>
-    <h1>Limbo Keys</h1>
+    <h1>Limbo</h1>
     <p>Enable Popups!</p>
 
     <div class="button-container">
@@ -119,6 +119,7 @@
                 if (shuffleCount >= shuffleLimit) {
                     clearInterval(interval);
                     setTimeout(() => {
+                        changeImages(); // Change images before circle formation
                         positionWindowsInCircle(); // Smoothly move to circle after 1s delay
                     }, 500);
                 }
@@ -148,6 +149,17 @@
                 win.moveTo(from.x + dx * count, from.y + dy * count);
                 if (count === steps) clearInterval(interval);
             }, shuffleDuration / steps);
+        }
+
+        // Change the image in each window after the shuffle process
+        function changeImages() {
+            for (let i = 0; i < windows.length; i++) {
+                const win = windows[i];
+                const windowImage = win.document.getElementById(`windowImage${i}`);
+                const key = 'key'; // Define your key here (e.g., 'key')
+                const imageId = gridIDs[i] - 1; // Subtract 1 from gridID for image ID
+                windowImage.src = `${key}${imageId}.png`; // Change the image to key + (gridID - 1).png
+            }
         }
 
         // Smoothly position the windows in a circle
@@ -182,37 +194,37 @@
         }
 
         // Spin the circle continuously
-function spinCircle() {
-    let rotationAngle = 0;
-    let spinSpeed = 0; // Initial speed for rotation
-    const accelerationRate = 0.05; // How much the speed increases each step
-    const maxSpeed = 1.5; // Maximum rotation increment (faster spin)
+        function spinCircle() {
+            let rotationAngle = 0;
+            let spinSpeed = 0; // Initial speed for rotation
+            const accelerationRate = 0.05; // How much the speed increases each step
+            const maxSpeed = 1.5; // Maximum rotation increment (faster spin)
 
-    function spinStep() {
-        rotationAngle += spinSpeed; // Increase rotation angle by spinSpeed
+            function spinStep() {
+                rotationAngle += spinSpeed; // Increase rotation angle by spinSpeed
 
-        // Update position of each window based on new rotation angle
-        windows.forEach((win, i) => {
-            const angle = (i * (2 * Math.PI) / windows.length) + (rotationAngle * Math.PI / 180);
-            const x = window.innerWidth / 2 + circleRadius * Math.cos(angle) - windowSize.width / 2;
-            const y = window.innerHeight / 2 + circleRadius * Math.sin(angle) - windowSize.height / 2;
-            win.moveTo(x, y);
-        });
+                // Update position of each window based on new rotation angle
+                windows.forEach((win, i) => {
+                    const angle = (i * (2 * Math.PI) / windows.length) + (rotationAngle * Math.PI / 180);
+                    const x = window.innerWidth / 2 + circleRadius * Math.cos(angle) - windowSize.width / 2;
+                    const y = window.innerHeight / 2 + circleRadius * Math.sin(angle) - windowSize.height / 2;
+                    win.moveTo(x, y);
+                });
 
-        // Reset rotation angle to avoid overflow
-        if (rotationAngle >= 360) {
-            rotationAngle = 0;
+                // Reset rotation angle to avoid overflow
+                if (rotationAngle >= 360) {
+                    rotationAngle = 0;
+                }
+
+                // Increase the spin speed, but ensure it doesn't exceed maxSpeed
+                spinSpeed = Math.min(maxSpeed, spinSpeed + accelerationRate);
+
+                // Keep the spinning going
+                setTimeout(spinStep, 50); // Adjust the timeout as necessary for smoothness
+            }
+
+            spinStep(); // Start the spinning process
         }
-
-        // Increase the spin speed, but ensure it doesn't exceed maxSpeed
-        spinSpeed = Math.min(maxSpeed, spinSpeed + accelerationRate);
-
-        // Keep the spinning going
-        setTimeout(spinStep, 50); // Adjust the timeout as necessary for smoothness
-    }
-
-    spinStep(); // Start the spinning process
-}
 
         function startGame() {
             openWindows();
@@ -222,14 +234,14 @@ function spinCircle() {
             }, 1000);
         }
 
-        window.addEventListener('message', (event) => {
-            if (event.data === 'win') {
-                alert('You win!');
-            } else {
-                alert('Wrong key. Try again!');
-            }
-            closeAllWindows();
-        });
+		window.addEventListener('message', (event) => {
+		    if (event.data === 'win') {
+ 	       alert('You win!');
+		    } else if (event.data === 'lose') {
+		        alert('Wrong key. Try again!');
+		    }
+		    closeAllWindows();
+		});
 
         function closeAllWindows() {
             windows.forEach(win => win.close());
