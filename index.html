@@ -112,6 +112,30 @@
             }
         }
 
+        // Flash the correct key image to green-key.png for 1 second
+        function flashCorrectKeyImage() {
+            const correctIndex = Math.floor(Math.random() * windows.length); // Randomly select the correct window
+            const win = windows[correctIndex];
+            const windowImage = win.document.getElementById(`windowImage${correctIndex}`);
+            const correctKeyImage = 'green-key.png';
+
+            // Change the image to green-key.png
+            windowImage.src = correctKeyImage;
+
+            // After 1 second, revert back to the original key.png
+            setTimeout(() => {
+                windowImage.src = `${backgroundImage}`; // Change back to key.png
+            }, 1000);
+
+            // Mark the correct window
+            win.correctWindow = true;
+
+            // After 1 second, start shuffling
+            setTimeout(() => {
+                shuffle();
+            }, 1000);
+        }
+
         function shuffle() {
             const interval = setInterval(() => {
                 shuffleGrid(Math.floor(Math.random() * shufflePatterns.length));
@@ -119,7 +143,6 @@
                 if (shuffleCount >= shuffleLimit) {
                     clearInterval(interval);
                     setTimeout(() => {
-                        changeImages(); // Change images before circle formation
                         positionWindowsInCircle(); // Smoothly move to circle after 1s delay
                     }, 500);
                 }
@@ -149,17 +172,6 @@
                 win.moveTo(from.x + dx * count, from.y + dy * count);
                 if (count === steps) clearInterval(interval);
             }, shuffleDuration / steps);
-        }
-
-        // Change the image in each window after the shuffle process
-        function changeImages() {
-            for (let i = 0; i < windows.length; i++) {
-                const win = windows[i];
-                const windowImage = win.document.getElementById(`windowImage${i}`);
-                const key = 'key'; // Define your key here (e.g., 'key')
-                const imageId = gridIDs[i] - 1; // Subtract 1 from gridID for image ID
-                windowImage.src = `${key}${imageId}.png`; // Change the image to key + (gridID - 1).png
-            }
         }
 
         // Smoothly position the windows in a circle
@@ -228,20 +240,20 @@
 
         function startGame() {
             openWindows();
-
+            flashCorrectKeyImage();
             setTimeout(() => {
                 shuffle();
             }, 1000);
         }
 
-		window.addEventListener('message', (event) => {
-		    if (event.data === 'win') {
- 	       alert('You win!');
-		    } else if (event.data === 'lose') {
-		        alert('Wrong key. Try again!');
-		    }
-		    closeAllWindows();
-		});
+        window.addEventListener('message', (event) => {
+            if (event.data === 'win') {
+                alert('You win!');
+            } else if (event.data === 'lose') {
+                alert('Wrong key. Try again!');
+            }
+            closeAllWindows();
+        });
 
         function closeAllWindows() {
             windows.forEach(win => win.close());
