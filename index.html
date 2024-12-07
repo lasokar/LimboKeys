@@ -251,8 +251,10 @@
         document.getElementById('startGameBtn').style.display = 'none';
         document.getElementById('Text1').style.display = 'none';
         document.getElementById('Text2').style.display = 'none';
-        document.body.style.backgroundColor = 'black';
-
+	document.body.style.backgroundImage = "url('LimboBG.png')";
+        document.body.style.backgroundSize = 'cover'; // Make sure it covers the whole window
+        document.body.style.backgroundPosition = 'center'; // Center the image
+	    
         // Start music and set it to 3:00
         const audio = document.getElementById('limboAudio');
         audio.currentTime = 180; // 3:00 in seconds
