@@ -352,6 +352,25 @@ function positionWindowsInCircle() {
             button.style.cursor = 'pointer';
             button.style.fontSize = '16px';
             button.style.marginTop = '20px';
+	    	button.style.backgroundImage = 'url("retry.png")';
+			button.style.backgroundSize = 'contain';  // Make sure the image fits within the button
+			button.style.backgroundRepeat = 'no-repeat';  // Prevent the image from repeating
+			button.style.border = 'none';  // Remove any borders
+			button.style.outline = 'none';  // Remove any outlines
+			button.style.width = '100px';  // Set the desired width of the button
+			button.style.height = '50px';  // Set the desired height of the button
+			button.style.padding = '0';  // Remove any padding to keep the size consistent
+			button.style.cursor = 'pointer';
+
+	    	button.addEventListener('mouseenter', function() {
+ 	    	    button.style.transform = 'scale(1.1)';  // Increase size by 10% when hovered
+	    	    button.style.transition = 'transform 0.2s';  // Smooth transition for the scaling effect
+	    	});
+
+	    	button.addEventListener('mouseleave', function() {
+	    	    button.style.transform = 'scale(1)';  // Reset to original size when the mouse leaves
+	   		});
+
             button.onclick = () => {
                 location.reload(); // Reload the page when button is clicked
             };
