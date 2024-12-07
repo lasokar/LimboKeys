@@ -40,7 +40,6 @@
     <p>Enable Popups!</p>
 
     <div class="button-container">
-        <!-- Start Game Button -->
         <button class="debug-button" onclick="startGame()">Start Game</button>
     </div>
 
@@ -51,10 +50,12 @@
         const gridSize = { rows: 4, cols: 2 };
         const windowSize = { width: 100, height: 100 };
         const spacing = { x: 200, y: 200 };
-        let shuffleCount = 0;
         const shuffleLimit = 25;
         const shuffleDuration = 300;
         const backgroundImage = 'key.png';
+        const circleRadius = 250;
+        const transitionDuration = 3000;
+        let shuffleCount = 0;
 
         const shufflePatterns = [
             { 1: 8, 2: 7, 3: 6, 4: 5, 5: 4, 6: 3, 7: 2, 8: 1 },
@@ -90,7 +91,6 @@
                             width: 100%;
                             height: 100%;
                             object-fit: cover;
-                            transition: filter 2s ease-in-out; /* Smooth transition for the filter */
                         }
                     </style>
                     <div class="image-container">
@@ -101,10 +101,8 @@
                 gridIDs.push(i + 1);
                 positions.push({ x, y });
 
-                // Initialize correctWindow as false, this will be updated later
                 win.correctWindow = false;
                 win.addEventListener('click', () => {
-                    // The correct window will only react after the game starts
                     if (win.correctWindow) {
                         window.postMessage('win', '*');
                     } else {
@@ -112,6 +110,19 @@
                     }
                 });
             }
+        }
+
+        function shuffle() {
+            const interval = setInterval(() => {
+                shuffleGrid(Math.floor(Math.random() * shufflePatterns.length));
+                shuffleCount++;
+                if (shuffleCount >= shuffleLimit) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        positionWindowsInCircle(); // Smoothly move to circle after 1s delay
+                    }, 500);
+                }
+            }, shuffleDuration);
         }
 
         function shuffleGrid(patternIndex) {
@@ -139,62 +150,76 @@
             }, shuffleDuration / steps);
         }
 
+        // Smoothly position the windows in a circle
+        function positionWindowsInCircle() {
+            const angleStep = (2 * Math.PI) / windows.length;
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            const steps = 100;
+            let count = 0;
+
+            const interval = setInterval(() => {
+                count++;
+                const progress = count / steps; // Animation progress (0 to 1)
+                windows.forEach((win, i) => {
+                    const angle = i * angleStep;
+                    const targetX = centerX + circleRadius * Math.cos(angle) - windowSize.width / 2;
+                    const targetY = centerY + circleRadius * Math.sin(angle) - windowSize.height / 2;
+
+                    const currentX = parseInt(win.screenX);
+                    const currentY = parseInt(win.screenY);
+                    const newX = currentX + (targetX - currentX) * progress;
+                    const newY = currentY + (targetY - currentY) * progress;
+
+                    win.moveTo(newX, newY);
+                });
+
+                if (count >= steps / 4) {
+                    clearInterval(interval);
+                    spinCircle(); // Start spinning after circle formation
+                }
+            }, transitionDuration / steps);
+        }
+
+        // Spin the circle continuously
+function spinCircle() {
+    let rotationAngle = 0;
+    let spinSpeed = 0; // Initial speed for rotation
+    const accelerationRate = 0.05; // How much the speed increases each step
+    const maxSpeed = 1.5; // Maximum rotation increment (faster spin)
+
+    function spinStep() {
+        rotationAngle += spinSpeed; // Increase rotation angle by spinSpeed
+
+        // Update position of each window based on new rotation angle
+        windows.forEach((win, i) => {
+            const angle = (i * (2 * Math.PI) / windows.length) + (rotationAngle * Math.PI / 180);
+            const x = window.innerWidth / 2 + circleRadius * Math.cos(angle) - windowSize.width / 2;
+            const y = window.innerHeight / 2 + circleRadius * Math.sin(angle) - windowSize.height / 2;
+            win.moveTo(x, y);
+        });
+
+        // Reset rotation angle to avoid overflow
+        if (rotationAngle >= 360) {
+            rotationAngle = 0;
+        }
+
+        // Increase the spin speed, but ensure it doesn't exceed maxSpeed
+        spinSpeed = Math.min(maxSpeed, spinSpeed + accelerationRate);
+
+        // Keep the spinning going
+        setTimeout(spinStep, 50); // Adjust the timeout as necessary for smoothness
+    }
+
+    spinStep(); // Start the spinning process
+}
+
         function startGame() {
             openWindows();
 
-            const targetWindowIndex = Math.floor(Math.random() * windows.length);
-            windows[targetWindowIndex].correctWindow = true;
-
-            // Change the image to green-key.png for the correct window
-            const image = windows[targetWindowIndex].document.getElementById(`windowImage${targetWindowIndex}`);
-            const key = 'key'; // Define your key here (e.g., 'key')
-            image.src = `green-key.png`; // Change to green-key.png
-
-            // After 2 seconds, revert the image back to the original
             setTimeout(() => {
-                image.src = `${key}${gridIDs[targetWindowIndex] - 1}.png`; // Revert to key+gridID-1.png
-                shuffle(); // Start the shuffle process after reverting the image
-            }, 2000); // 2 seconds to display the green image
-        }
-
-        function shuffle() {
-            const interval = setInterval(() => {
-                shuffleGrid(Math.floor(Math.random() * shufflePatterns.length));
-                shuffleCount++;
-                if (shuffleCount >= shuffleLimit) {
-                    clearInterval(interval);
-                    changeImages(); // Change the images after shuffling
-                    spinCircle(); // Start spinning after shuffling
-                }
-            }, shuffleDuration);
-        }
-
-        // Change the image in each window after the shuffle process
-        function changeImages() {
-            for (let i = 0; i < windows.length; i++) {
-                const win = windows[i];
-                const windowImage = win.document.getElementById(`windowImage${i}`);
-                const key = 'key'; // Define your key here (e.g., 'key')
-                const imageId = gridIDs[i] - 1; // Subtract 1 from gridID for image ID
-                windowImage.src = `${key}${imageId}.png`; // Change the image to key + (gridID - 1).png
-            }
-        }
-
-        // Animate windows in a spinning circle
-        function spinCircle() {
-            const radius = 300; // Radius of the spinning circle
-            const centerX = window.innerWidth / 2;
-            const centerY = window.innerHeight / 2;
-            const numWindows = windows.length;
-            const angleStep = (2 * Math.PI) / numWindows;
-
-            windows.forEach((win, i) => {
-                const angle = i * angleStep;
-                const x = centerX + radius * Math.cos(angle) - windowSize.width / 2;
-                const y = centerY + radius * Math.sin(angle) - windowSize.height / 2;
-
-                moveWindow(win, positions[i], { x, y });
-            });
+                shuffle();
+            }, 1000);
         }
 
         window.addEventListener('message', (event) => {
@@ -204,17 +229,10 @@
                 alert('Wrong key. Try again!');
             }
             closeAllWindows();
-            setTimeout(() => {
-                location.reload(); // Refresh the page after the game ends
-            }, 3000); // Refresh after 3 seconds
         });
 
         function closeAllWindows() {
             windows.forEach(win => win.close());
-        }
-
-        function activatePattern(patternIndex) {
-            shuffleGrid(patternIndex);
         }
     </script>
 </body>
