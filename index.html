@@ -27,32 +27,19 @@
             font-size: 16px;
             border: none;
             border-radius: 5px;
-            background-color: #008f26;
-            color: #fff;
-        }
-        .start-button:hover {
-            background-color: #003d10;
-        }
-        .popups-button {
-            padding: 10px 20px;
-            margin: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
             background-color: #007BFF;
             color: #fff;
         }
-        .popups-button:hover {
+        .start-button:hover {
             background-color: #0056b3;
         }
     </style>
 </head>
 <body>
 	<h1 id="title">Limbo Keys</h1>
+    <p id="popups">Enable Popups to play!</p>
     <div class="button-container">
         <button id="startGameBtn" class="start-button" onclick="startGame()">Start Game</button>
-        <button id="popupsEnabledBtn" class="popups-button" onclick="location.reload()">I enabled popups!</button>
     </div>
 
     <!-- Audio element for the background music -->
@@ -72,7 +59,7 @@
     const transitionDuration = 3000;
     let shuffleCount = 0;
     let canClickWindows = false;
-    document.getElementById('popupsEnabledBtn').style.display = 'none';
+    document.getElementById('popups').style.display = 'none';
 
     const shufflePatterns = [
         { 1: 1, 2: 3, 3: 2, 4: 5, 5: 4, 6: 8, 7: 6, 8: 7 },
@@ -96,15 +83,17 @@
         
         // Check if popups were successfully opened
         if (win1 && win2) {
-                win1.close();
-                win2.close();
+                document.getElementById('startGameBtn').style.display = 'inline';
+                document.getElementById('popups').style.display = 'none';
         } else {
             document.getElementById('startGameBtn').style.display = 'none';
-            document.getElementById('popupsEnabledBtn').style.display = 'inline';
-            setTimeout(function() {
-				alert('Enable popups on this page to play!');
-			}, 10);
+            document.getElementById('popups').style.display = 'block';
+            setTimeout(() => {
+			    openTestPopups();
+			}, 500);
         }
+       win1.close();
+       win2.close();
     }
     
     openTestPopups();
