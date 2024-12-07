@@ -206,36 +206,46 @@ function shuffleGrid(patternIndex) {
         }
     }
 
-    // Smoothly position the windows in a circle
-    function positionWindowsInCircle() {
-        const angleStep = (2 * Math.PI) / windows.length;
-        const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight / 2 + 75;
-        const steps = 100;
-        let count = 0;
+// Smoothly position the windows in a circle with image spin
+function positionWindowsInCircle() {
+    const angleStep = (2 * Math.PI) / windows.length;
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2 + 75;
+    const steps = 100;
+    let count = 0;
 
-        const interval = setInterval(() => {
-            count++;
-            const progress = count / steps; // Animation progress (0 to 1)
-            windows.forEach((win, i) => {
-                const angle = i * angleStep;
-                const targetX = centerX + circleRadius * Math.cos(angle) - windowSize.width / 2;
-                const targetY = centerY + circleRadius * Math.sin(angle) - windowSize.height / 2;
+    const interval = setInterval(() => {
+        count++;
+        const progress = count / steps; // Animation progress (0 to 1)
+        windows.forEach((win, i) => {
+            const angle = i * angleStep;
+            const targetX = centerX + circleRadius * Math.cos(angle) - windowSize.width / 2;
+            const targetY = centerY + circleRadius * Math.sin(angle) - windowSize.height / 2;
 
-                const currentX = parseInt(win.screenX);
-                const currentY = parseInt(win.screenY);
-                const newX = currentX + (targetX - currentX) * progress;
-                const newY = currentY + (targetY - currentY) * progress;
+            // Get the window's image element
+            const windowImage = win.document.getElementById(`windowImage${i}`);
+            
+            // Calculate the rotation angle (180 degrees during the animation)
+            const rotationAngle = -360 * progress * 4;  // Key rotation
 
-                win.moveTo(newX, newY);
-            });
+            // Apply rotation to the image
+            windowImage.style.transform = `rotate(${rotationAngle}deg)`;  // Apply the rotation transformation
 
-            if (count >= steps / 4) {
-                clearInterval(interval);
-                spinCircle(); // Start spinning after circle formation
-            }
-        }, transitionDuration / steps);
-    }
+            // Move the window
+            const currentX = parseInt(win.screenX);
+            const currentY = parseInt(win.screenY);
+            const newX = currentX + (targetX - currentX) * progress;
+            const newY = currentY + (targetY - currentY) * progress;
+
+            win.moveTo(newX, newY);
+        });
+
+        if (count >= steps / 4) {
+            clearInterval(interval);
+            spinCircle(); // Start spinning after circle formation
+        }
+    }, transitionDuration / steps);
+}
 
     // Spin the circle continuously
     function spinCircle() {
