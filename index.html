@@ -83,14 +83,15 @@
         
         // Check if popups were successfully opened
         if (win1 && win2) {
-                document.getElementById('startGameBtn').style.display = 'inline';
-                document.getElementById('popups').style.display = 'none';
+            if (startGameBtn.style.display == 'none') {
+		location.reload();
+	    }
         } else {
             document.getElementById('startGameBtn').style.display = 'none';
             document.getElementById('popups').style.display = 'block';
             setTimeout(() => {
-			    openTestPopups();
-			}, 500);
+		openTestPopups();
+	    }, 500);
         }
        win1.close();
        win2.close();
