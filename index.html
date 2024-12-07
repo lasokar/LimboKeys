@@ -46,233 +46,267 @@
     <!-- Audio element for the background music -->
     <audio id="limboAudio" src="limbo.mp3" preload="auto"></audio>
 
-    <script>
-        const windows = [];
-        let positions = [];
-        let gridIDs = [];
-        const gridSize = { rows: 4, cols: 2 };
-        const windowSize = { width: 100, height: 100 };
-        const spacing = { x: 200, y: 200 };
-        const shuffleLimit = 25;
-        const shuffleDuration = 350;
-        const backgroundImage = 'key.png';
-        const circleRadius = 250;
-        const transitionDuration = 3000;
-        let shuffleCount = 0;
+<script>
+    const windows = [];
+    let positions = [];
+    let gridIDs = [];
+    const gridSize = { rows: 4, cols: 2 };
+    const windowSize = { width: 100, height: 100 };
+    const spacing = { x: 200, y: 200 };
+    const shuffleLimit = 25;
+    const shuffleDuration = 325;
+    const backgroundImage = 'key.png';
+    const circleRadius = 250;
+    const transitionDuration = 3000;
+    let shuffleCount = 0;
 
-        const shufflePatterns = [
-            { 1: 8, 2: 7, 3: 6, 4: 5, 5: 4, 6: 3, 7: 2, 8: 1 },
-            { 1: 2, 2: 1, 3: 4, 4: 3, 5: 6, 6: 5, 7: 8, 8: 7 },
-            { 1: 4, 2: 3, 3: 2, 4: 1, 5: 8, 6: 7, 7: 6, 8: 5 },
-            { 1: 3, 2: 4, 3: 1, 4: 2, 5: 7, 6: 8, 7: 5, 8: 6 }
-        ];
+    const shufflePatterns = [
+        { 1: 8, 2: 7, 3: 6, 4: 5, 5: 4, 6: 3, 7: 2, 8: 1 },
+        { 1: 2, 2: 1, 3: 4, 4: 3, 5: 6, 6: 5, 7: 8, 8: 7 },
+        { 1: 4, 2: 3, 3: 2, 4: 1, 5: 8, 6: 7, 7: 6, 8: 5 },
+        { 1: 3, 2: 4, 3: 1, 4: 2, 5: 7, 6: 8, 7: 5, 8: 6 }
+    ];
 
-        function openWindows() {
-            const screenWidth = window.innerWidth;
-            const offsetX = (screenWidth - (gridSize.cols * spacing.x)) / 2;
+    function openWindows() {
+        const screenWidth = window.innerWidth;
+        const offsetX = (screenWidth - (gridSize.cols * spacing.x)) / 2;
 
-            for (let i = 0; i < gridSize.rows * gridSize.cols; i++) {
-                const x = offsetX + (i % gridSize.cols) * spacing.x;
-                const y = Math.floor(i / gridSize.cols) * spacing.y;
+        for (let i = 0; i < gridSize.rows * gridSize.cols; i++) {
+            const x = offsetX + (i % gridSize.cols) * spacing.x;
+            const y = Math.floor(i / gridSize.cols) * spacing.y;
 
-                const win = window.open('', '_blank', `width=${windowSize.width},height=${windowSize.height},left=${x},top=${y}`);
-                win.document.write(`
-                    <style>
-                        body {
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            font-family: Arial;
-                            color: white;
-                            margin: 0;
-                            background-color: black;
-                        }
-                        .image-container {
-                            position: relative;
-                        }
-                        img {
-                            width: 100%;
-                            height: 100%;
-                            object-fit: cover;
-                        }
-                    </style>
-                    <div class="image-container">
-                        <img src="${backgroundImage}" id="windowImage${i}" alt="Game Image">
-                    </div>
-                `);
-                windows.push(win);
-                gridIDs.push(i + 1);
-                positions.push({ x, y });
-
-                win.correctWindow = false;
-                win.addEventListener('click', () => {
-                    if (win.correctWindow) {
-                        window.postMessage('win', '*');
-                    } else {
-                        window.postMessage('lose', '*');
+            const win = window.open('', '_blank', `width=${windowSize.width},height=${windowSize.height},left=${x},top=${y}`);
+            win.document.write(`
+                <style>
+                    body {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        font-family: Arial;
+                        color: white;
+                        margin: 0;
+                        background-color: black;
                     }
-                });
-            }
-        }
+                    .image-container {
+                        position: relative;
+                    }
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                </style>
+                <div class="image-container">
+                    <img src="${backgroundImage}" id="windowImage${i}" alt="Game Image">
+                </div>
+            `);
+            windows.push(win);
+            gridIDs.push(i + 1);
+            positions.push({ x, y });
 
-        function flashCorrectKeyImage() {
-            const correctIndex = Math.floor(Math.random() * windows.length); // Randomly select the correct window
-            const win = windows[correctIndex];
-            const windowImage = win.document.getElementById(`windowImage${correctIndex}`);
-            const correctKeyImage = 'green-key.png';
-
-            // Change the image to green-key.png
-            windowImage.src = correctKeyImage;
-
-            // After 1 second, revert back to the original key.png
-            setTimeout(() => {
-                windowImage.src = `${backgroundImage}`; // Change back to key.png
-            }, 1000);
-
-            // Mark the correct window
-            win.correctWindow = true;
-        }
-
-        function shuffle() {
-            const interval = setInterval(() => {
-                shuffleGrid(Math.floor(Math.random() * shufflePatterns.length));
-                shuffleCount++;
-                if (shuffleCount >= shuffleLimit) {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        changeImages(); // Change images before circle formation
-                        positionWindowsInCircle(); // Smoothly move to circle after 1s delay
-                    }, 500);
+            win.correctWindow = false;
+            win.addEventListener('click', () => {
+                if (win.correctWindow) {
+                    window.postMessage('win', '*');
+                } else {
+                    window.postMessage('lose', '*');
                 }
-            }, shuffleDuration);
+            });
         }
+    }
 
-        function shuffleGrid(patternIndex) {
-            const pattern = shufflePatterns[patternIndex];
-            const newPositions = [];
-            for (const currentID in pattern) {
-                const targetID = pattern[currentID];
-                const fromIndex = gridIDs.indexOf(parseInt(currentID));
-                const toIndex = gridIDs.indexOf(parseInt(targetID));
+    function flashCorrectKeyImage() {
+        const correctIndex = Math.floor(Math.random() * windows.length); // Randomly select the correct window
+        const win = windows[correctIndex];
+        const windowImage = win.document.getElementById(`windowImage${correctIndex}`);
+        const correctKeyImage = 'green-key.png';
 
-                newPositions[toIndex] = positions[fromIndex];
-                moveWindow(windows[fromIndex], positions[fromIndex], positions[toIndex]);
+        // Change the image to green-key.png
+        windowImage.src = correctKeyImage;
+
+        // After 1 second, revert back to the original key.png
+        setTimeout(() => {
+            windowImage.src = `${backgroundImage}`; // Change back to key.png
+        }, 1000);
+
+        // Mark the correct window
+        win.correctWindow = true;
+    }
+
+    function shuffle() {
+        const interval = setInterval(() => {
+            shuffleGrid(Math.floor(Math.random() * shufflePatterns.length));
+            shuffleCount++;
+            if (shuffleCount >= shuffleLimit) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    changeImages(); // Change images before circle formation
+                    positionWindowsInCircle(); // Smoothly move to circle after 1s delay
+                }, 500);
             }
-            positions = newPositions;
+        }, shuffleDuration);
+    }
+
+    function shuffleGrid(patternIndex) {
+        const pattern = shufflePatterns[patternIndex];
+        const newPositions = [];
+        for (const currentID in pattern) {
+            const targetID = pattern[currentID];
+            const fromIndex = gridIDs.indexOf(parseInt(currentID));
+            const toIndex = gridIDs.indexOf(parseInt(targetID));
+
+            newPositions[toIndex] = positions[fromIndex];
+            moveWindow(windows[fromIndex], positions[fromIndex], positions[toIndex]);
         }
+        positions = newPositions;
+    }
 
-        function moveWindow(win, from, to) {
-            let steps = 10, count = 0;
-            const dx = (to.x - from.x) / steps, dy = (to.y - from.y) / steps;
+    function moveWindow(win, from, to) {
+        let steps = 10, count = 0;
+        const dx = (to.x - from.x) / steps, dy = (to.y - from.y) / steps;
 
-            const interval = setInterval(() => {
-                count++;
-                win.moveTo(from.x + dx * count, from.y + dy * count);
-                if (count === steps) clearInterval(interval);
-            }, shuffleDuration / steps);
+        const interval = setInterval(() => {
+            count++;
+            win.moveTo(from.x + dx * count, from.y + dy * count);
+            if (count === steps) clearInterval(interval);
+        }, shuffleDuration / steps);
+    }
+
+    // Change the image in each window after the shuffle process
+    function changeImages() {
+        for (let i = 0; i < windows.length; i++) {
+            const win = windows[i];
+            const windowImage = win.document.getElementById(`windowImage${i}`);
+            const key = 'key'; // Define your key here (e.g., 'key')
+            const imageId = gridIDs[i] - 1; // Subtract 1 from gridID for image ID
+            windowImage.src = `${key}${imageId}.png`; // Change the image to key + (gridID - 1).png
         }
+    }
 
-        // Change the image in each window after the shuffle process
-        function changeImages() {
-            for (let i = 0; i < windows.length; i++) {
-                const win = windows[i];
-                const windowImage = win.document.getElementById(`windowImage${i}`);
-                const key = 'key'; // Define your key here (e.g., 'key')
-                const imageId = gridIDs[i] - 1; // Subtract 1 from gridID for image ID
-                windowImage.src = `${key}${imageId}.png`; // Change the image to key + (gridID - 1).png
+    // Smoothly position the windows in a circle
+    function positionWindowsInCircle() {
+        const angleStep = (2 * Math.PI) / windows.length;
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        const steps = 100;
+        let count = 0;
+
+        const interval = setInterval(() => {
+            count++;
+            const progress = count / steps; // Animation progress (0 to 1)
+            windows.forEach((win, i) => {
+                const angle = i * angleStep;
+                const targetX = centerX + circleRadius * Math.cos(angle) - windowSize.width / 2;
+                const targetY = centerY + circleRadius * Math.sin(angle) - windowSize.height / 2;
+
+                const currentX = parseInt(win.screenX);
+                const currentY = parseInt(win.screenY);
+                const newX = currentX + (targetX - currentX) * progress;
+                const newY = currentY + (targetY - currentY) * progress;
+
+                win.moveTo(newX, newY);
+            });
+
+            if (count >= steps / 4) {
+                clearInterval(interval);
+                spinCircle(); // Start spinning after circle formation
             }
-        }
+        }, transitionDuration / steps);
+    }
 
-        // Smoothly position the windows in a circle
-        function positionWindowsInCircle() {
-            const angleStep = (2 * Math.PI) / windows.length;
-            const centerX = window.innerWidth / 2;
-            const centerY = window.innerHeight / 2;
-            const steps = 100;
-            let count = 0;
+    // Spin the circle continuously
+    function spinCircle() {
+        let rotationAngle = 0;
+        let spinSpeed = 0; // Initial speed for rotation
+        const accelerationRate = 0.05; // How much the speed increases each step
+        const maxSpeed = 1.5; // Maximum rotation increment (faster spin)
 
-            const interval = setInterval(() => {
-                count++;
-                const progress = count / steps; // Animation progress (0 to 1)
-                windows.forEach((win, i) => {
-                    const angle = i * angleStep;
-                    const targetX = centerX + circleRadius * Math.cos(angle) - windowSize.width / 2;
-                    const targetY = centerY + circleRadius * Math.sin(angle) - windowSize.height / 2;
+        function spinStep() {
+            rotationAngle += spinSpeed; // Increase rotation angle by spinSpeed
 
-                    const currentX = parseInt(win.screenX);
-                    const currentY = parseInt(win.screenY);
-                    const newX = currentX + (targetX - currentX) * progress;
-                    const newY = currentY + (targetY - currentY) * progress;
+            // Update position of each window based on new rotation angle
+            windows.forEach((win, i) => {
+                const angle = (i * (2 * Math.PI) / windows.length) + (rotationAngle * Math.PI / 180);
+                const x = window.innerWidth / 2 + circleRadius * Math.cos(angle) - windowSize.width / 2;
+                const y = window.innerHeight / 2 + circleRadius * Math.sin(angle) - windowSize.height / 2;
+                win.moveTo(x, y);
+            });
 
-                    win.moveTo(newX, newY);
-                });
-
-                if (count >= steps / 4) {
-                    clearInterval(interval);
-                    spinCircle(); // Start spinning after circle formation
-                }
-            }, transitionDuration / steps);
-        }
-
-        // Spin the circle continuously
-        function spinCircle() {
-            let rotationAngle = 0;
-            let spinSpeed = 0; // Initial speed for rotation
-            const accelerationRate = 0.05; // How much the speed increases each step
-            const maxSpeed = 1.5; // Maximum rotation increment (faster spin)
-
-            function spinStep() {
-                rotationAngle += spinSpeed; // Increase rotation angle by spinSpeed
-
-                // Update position of each window based on new rotation angle
-                windows.forEach((win, i) => {
-                    const angle = (i * (2 * Math.PI) / windows.length) + (rotationAngle * Math.PI / 180);
-                    const x = window.innerWidth / 2 + circleRadius * Math.cos(angle) - windowSize.width / 2;
-                    const y = window.innerHeight / 2 + circleRadius * Math.sin(angle) - windowSize.height / 2;
-                    win.moveTo(x, y);
-                });
-
-                // Reset rotation angle to avoid overflow
-                if (rotationAngle >= 360) {
-                    rotationAngle = 0;
-                }
-
-                // Increase the spin speed, but ensure it doesn't exceed maxSpeed
-                spinSpeed = Math.min(maxSpeed, spinSpeed + accelerationRate);
-
-                // Keep the spinning going
-                setTimeout(spinStep, 50); // Adjust the timeout as necessary for smoothness
+            // Reset rotation angle to avoid overflow
+            if (rotationAngle >= 360) {
+                rotationAngle = 0;
             }
 
-            spinStep(); // Start the spinning process
+            // Increase the spin speed, but ensure it doesn't exceed maxSpeed
+            spinSpeed = Math.min(maxSpeed, spinSpeed + accelerationRate);
+
+            // Keep the spinning going
+            setTimeout(spinStep, 50); // Adjust the timeout as necessary for smoothness
         }
 
-        function startGame() {
-            // Start music and set it to 3:00
-            const audio = document.getElementById('limboAudio');
-            audio.currentTime = 180; // 3:00 in seconds
-            audio.play();
+        spinStep(); // Start the spinning process
+    }
 
-            openWindows();
-            flashCorrectKeyImage();
-            setTimeout(() => {
-                shuffle();
-            }, 1000);
-        }
-		window.addEventListener('message', (event) => {
-		    if (event.data === 'win') {
- 	       		alert('You win!');
-			location.reload();
-		    } else if (event.data === 'lose') {
-		        alert('Wrong key. Try again!');
-			location.reload();
-		    }
-		    closeAllWindows();
-		});
+    function startGame() {
+        // Start music and set it to 3:00
+        const audio = document.getElementById('limboAudio');
+        audio.currentTime = 180; // 3:00 in seconds
+        audio.play();
 
-        function closeAllWindows() {
-            windows.forEach(win => win.close());
+        openWindows();
+        flashCorrectKeyImage();
+        setTimeout(() => {
+            shuffle();
+        }, 1000);
+    }
+
+    // Listen for win/lose message and update the page accordingly
+    window.addEventListener('message', (event) => {
+        const resultDiv = document.getElementById('resultDiv');
+        if (!resultDiv) {
+            const newDiv = document.createElement('div');
+            newDiv.id = 'resultDiv';
+            newDiv.style.position = 'fixed';
+            newDiv.style.top = '50%';
+            newDiv.style.left = '50%';
+            newDiv.style.transform = 'translate(-50%, -50%)';
+            newDiv.style.padding = '20px';
+            newDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+            newDiv.style.color = 'white';
+            newDiv.style.textAlign = 'center';
+            newDiv.style.borderRadius = '10px';
+
+            const message = document.createElement('p');
+            message.id = 'resultMessage';
+            newDiv.appendChild(message);
+
+            const button = document.createElement('button');
+            button.textContent = 'Try Again';
+            button.style.padding = '10px 20px';
+            button.style.cursor = 'pointer';
+            button.style.fontSize = '16px';
+            button.style.marginTop = '20px';
+            button.onclick = () => {
+                location.reload(); // Reload the page when button is clicked
+            };
+            newDiv.appendChild(button);
+
+            document.body.appendChild(newDiv);
         }
-    </script>
+
+        const message = document.getElementById('resultMessage');
+        if (event.data === 'win') {
+            message.textContent = 'You win!';
+        } else if (event.data === 'lose') {
+            message.textContent = 'Wrong key. Try again!';
+        }
+
+        closeAllWindows();
+    });
+
+    function closeAllWindows() {
+        windows.forEach(win => win.close());
+    }
+</script>
 </body>
 </html>
