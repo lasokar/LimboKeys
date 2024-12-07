@@ -187,7 +187,7 @@
     function positionWindowsInCircle() {
         const angleStep = (2 * Math.PI) / windows.length;
         const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight / 2 + 50;
+        const centerY = window.innerHeight / 2 + 75;
         const steps = 100;
         let count = 0;
 
@@ -228,7 +228,7 @@
             windows.forEach((win, i) => {
                 const angle = (i * (2 * Math.PI) / windows.length) + (rotationAngle * Math.PI / 180);
                 const x = window.innerWidth / 2 + circleRadius * Math.cos(angle) - windowSize.width / 2;
-                const y = window.innerHeight / 2 + circleRadius * Math.sin(angle) - windowSize.height / 2 + 50;
+                const y = window.innerHeight / 2 + circleRadius * Math.sin(angle) - windowSize.height / 2 + 75;
                 win.moveTo(x, y);
             });
 
