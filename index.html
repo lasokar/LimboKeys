@@ -261,12 +261,13 @@
         }
 		window.addEventListener('message', (event) => {
 		    if (event.data === 'win') {
- 	       alert('You win!');
+ 	       		alert('You win!');
+			location.reload();
 		    } else if (event.data === 'lose') {
 		        alert('Wrong key. Try again!');
+			location.reload();
 		    }
 		    closeAllWindows();
-		    location.reload();
 		});
 
         function closeAllWindows() {
