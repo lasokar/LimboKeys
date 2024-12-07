@@ -20,7 +20,7 @@
         .button-container {
             margin-top: 20px;
         }
-        .debug-button {
+        .start-button {
             padding: 10px 20px;
             margin: 5px;
             cursor: pointer;
@@ -30,17 +30,17 @@
             background-color: #007BFF;
             color: #fff;
         }
-        .debug-button:hover {
+        .start-button:hover {
             background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <h1>Limbo Keys</h1>
-    <p>Enable Popups!</p>
+	<h1 id="Text1">Limbo Keys</h1>
+	<p id="Text2">Enable Popups!</p>
 
     <div class="button-container">
-        <button class="debug-button" onclick="startGame()">Start Game</button>
+        <button id="startGameBtn" class="start-button" onclick="startGame()">Start Game</button>
     </div>
 
     <!-- Audio element for the background music -->
@@ -248,6 +248,11 @@
     }
 
     function startGame() {
+        document.getElementById('startGameBtn').style.display = 'none';
+        document.getElementById('limboKeysText').style.display = 'none';
+        document.getElementById('enablePopupsText').style.display = 'none';
+        document.body.style.backgroundColor = 'black';
+
         // Start music and set it to 3:00
         const audio = document.getElementById('limboAudio');
         audio.currentTime = 180; // 3:00 in seconds
