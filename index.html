@@ -403,16 +403,13 @@ function positionWindowsInCircle() {
    	    }, 1000);
 		
 	    setTimeout(() => {
+		resultDiv.style.display = 'block';
 	        flashDiv.style.opacity = 0;
 	    }, 2500);
 
 	    setTimeout(() => {
 	        document.body.removeChild(flashDiv);
 	    }, 3000);
-        
-        setTimeout(() => {
-        	resultDiv.style.display = 'block';
-    	}, 4000);
 	}
 
     function closeAllWindows() {
