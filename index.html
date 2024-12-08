@@ -149,7 +149,6 @@ function openWindows() {
             if (canClickWindows) {
 		const imageSrc = win.document.getElementById(`windowImage${i}`).src.split('/').pop();
                 const flashColor = colors[imageSrc] || 'black';
-		fullscreen();
             	flashScreen(flashColor);
                 if (win.correctWindow) {
                     window.postMessage('win', '*');
@@ -364,7 +363,6 @@ function positionWindowsInCircle() {
 	    });
 
             button.onclick = () => {
-		exitFullscreen();
                 location.reload();
             };
             
@@ -378,7 +376,6 @@ function positionWindowsInCircle() {
 		} else if (event.data === 'lose') {
 		    message.textContent = 'Wrong key. Try again!';
 		}
-
 		closeAllWindows();
     });
 
@@ -408,36 +405,13 @@ function positionWindowsInCircle() {
 
 	    setTimeout(() => {
 	        document.body.removeChild(flashDiv);
+		resultDiv.style.transition = 'opacity 1s ease';
 		resultDiv.style.display = 'block';
 	    }, 5550);
 	}
 
     function closeAllWindows() {
         windows.forEach(win => win.close());
-    }
-
-    function fullscreen() {
-        if (document.documentElement.requestFullscreen) {
-            document.documentElement.requestFullscreen();
-        } else if (document.documentElement.mozRequestFullScreen) {
-            document.documentElement.mozRequestFullScreen();
-        } else if (document.documentElement.webkitRequestFullscreen) {
-            document.documentElement.webkitRequestFullscreen();
-        } else if (document.documentElement.msRequestFullscreen) {
-            document.documentElement.msRequestFullscreen();
-        }
-    }
-
-    function exitFullscreen() {
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen();
-        } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) {
-            document.msExitFullscreen();
-        }
     }
 </script>
 </body>
