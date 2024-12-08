@@ -363,7 +363,7 @@ function positionWindowsInCircle() {
 	    });
 
             button.onclick = () => {
-		document.exitFullscreen();
+		exitFullscreen();
                 location.reload();
             };
             
@@ -394,7 +394,7 @@ function positionWindowsInCircle() {
 	    flashDiv.style.transition = 'opacity 0.5s ease, background-color 1s ease';
 	    document.body.appendChild(flashDiv);
 	    flashDiv.style.opacity = 1;
-	    document.documentElement.requestFullscreen();
+	    fullscreen();
 	    document.body.style.backgroundImage = "url('EndBG.png')";
 
 	    setTimeout(() => {
@@ -415,6 +415,30 @@ function positionWindowsInCircle() {
     function closeAllWindows() {
         windows.forEach(win => win.close());
     }
+
+function fullscreen() {
+    if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+    } else if (document.documentElement.mozRequestFullScreen) {
+        document.documentElement.mozRequestFullScreen();
+    } else if (document.documentElement.webkitRequestFullscreen) {
+        document.documentElement.webkitRequestFullscreen();
+    } else if (document.documentElement.msRequestFullscreen) {
+        document.documentElement.msRequestFullscreen();
+    }
+}
+
+function exitFullscreen() {
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+    }
+}
 </script>
 </body>
 </html>
