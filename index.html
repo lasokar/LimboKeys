@@ -390,7 +390,7 @@ function positionWindowsInCircle() {
 	    flashDiv.style.backgroundColor = color;
 	    flashDiv.style.zIndex = 9999;
 	    flashDiv.style.opacity = 0;
-	    flashDiv.style.transition = 'opacity 0.5s ease';
+	    flashDiv.style.transition = 'opacity 0.5s ease, background-color 0.5s ease';
 	    document.body.appendChild(flashDiv);
 
 	    setTimeout(() => {
@@ -398,11 +398,11 @@ function positionWindowsInCircle() {
 	    }, 50);
 
 	    setTimeout(() => {
+		document.body.style.backgroundImage = "url('EndBG.png')";
         	flashDiv.style.backgroundColor = 'black';
    	    }, 1000);
 		
 	    setTimeout(() => {
-        	document.body.style.backgroundImage = "url('EndBG.png')";
 	        flashDiv.style.opacity = 0;
 	    }, 2500);
 
