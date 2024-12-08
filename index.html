@@ -341,28 +341,29 @@ function positionWindowsInCircle() {
             button.style.cursor = 'pointer';
             button.style.fontSize = '16px';
             button.style.marginTop = '20px';
-	    	button.style.backgroundImage = 'url("retry.png")';
-	    	button.style.backgroundSize = 'contain';
-	    	button.style.backgroundRepeat = 'no-repeat';
-	    	button.style.backgroundPosition = 'center';
-	    	button.style.backgroundColor = 'transparent';
-	    	button.style.border = 'none';
-	    	button.style.outline = 'none';
-	    	button.style.width = '100px';
-	    	button.style.height = '100px';
-	    	button.style.padding = '0';
-	    	button.style.cursor = 'pointer';
+	    button.style.backgroundImage = 'url("retry.png")';
+	    button.style.backgroundSize = 'contain';
+	    button.style.backgroundRepeat = 'no-repeat';
+	    button.style.backgroundPosition = 'center';
+	    button.style.backgroundColor = 'transparent';
+	    button.style.border = 'none';
+	    button.style.outline = 'none';
+	    button.style.width = '100px';
+	    button.style.height = '100px';
+	    button.style.padding = '0';
+	    button.style.cursor = 'pointer';
 
-	   		button.addEventListener('mouseenter', function() {
- 	    		button.style.transform = 'scale(1.1)';
-	    		button.style.transition = 'transform 0.2s';
-	    	});
+	    button.addEventListener('mouseenter', function() {
+ 	    button.style.transform = 'scale(1.1)';
+	    button.style.transition = 'transform 0.2s';
+	    });
 
-	    	button.addEventListener('mouseleave', function() {
-	    		button.style.transform = 'scale(1)';
-	   		});
+	    button.addEventListener('mouseleave', function() {
+	    button.style.transform = 'scale(1)';
+	    });
 
             button.onclick = () => {
+		document.exitFullscreen();
                 location.reload();
             };
             
@@ -392,15 +393,13 @@ function positionWindowsInCircle() {
 	    flashDiv.style.opacity = 0;
 	    flashDiv.style.transition = 'opacity 0.5s ease, background-color 0.5s ease';
 	    document.body.appendChild(flashDiv);
+	    flashDiv.style.opacity = 1;
+	    document.documentElement.requestFullscreen();
+	    document.body.style.backgroundImage = "url('EndBG.png')";
 
 	    setTimeout(() => {
-		flashDiv.style.opacity = 1;
-   	    }, 50);
-
-	    setTimeout(() => {
-		document.body.style.backgroundImage = "url('EndBG.png')";
         	flashDiv.style.backgroundColor = 'black';
-   	    }, 550);
+   	    }, 50);
 		
 	    setTimeout(() => {
 		resultDiv.style.display = 'block';
