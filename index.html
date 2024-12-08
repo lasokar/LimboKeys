@@ -100,6 +100,7 @@
 function openWindows() {
     const screenWidth = window.innerWidth;
     const offsetX = (screenWidth - (gridSize.cols * spacing.x)) / 2;
+    const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink', 'cyan'];
 
     for (let i = 0; i < gridSize.rows * gridSize.cols; i++) {
         const x = offsetX + (i % gridSize.cols) * spacing.x;
@@ -135,8 +136,10 @@ function openWindows() {
         positions.push({ x, y });
 
         win.correctWindow = false;
+        win.color = colors[i % colors.length];
         win.addEventListener('click', () => {
             if (canClickWindows) {
+            	flashScreen(win.color);
                 if (win.correctWindow) {
                     window.postMessage('win', '*');
                 } else {
@@ -328,46 +331,75 @@ function positionWindowsInCircle() {
             button.style.cursor = 'pointer';
             button.style.fontSize = '16px';
             button.style.marginTop = '20px';
-	    button.style.backgroundImage = 'url("retry.png")';
-	    button.style.backgroundSize = 'contain';
-	    button.style.backgroundRepeat = 'no-repeat';
-	    button.style.backgroundPosition = 'center';
-	    button.style.backgroundColor = 'transparent';
-	    button.style.border = 'none';
-	    button.style.outline = 'none';
-	    button.style.width = '100px';
-	    button.style.height = '100px';
-	    button.style.padding = '0';
-	    button.style.cursor = 'pointer';
+	    	button.style.backgroundImage = 'url("retry.png")';
+	    	button.style.backgroundSize = 'contain';
+	    	button.style.backgroundRepeat = 'no-repeat';
+	    	button.style.backgroundPosition = 'center';
+	    	button.style.backgroundColor = 'transparent';
+	    	button.style.border = 'none';
+	    	button.style.outline = 'none';
+	    	button.style.width = '100px';
+	    	button.style.height = '100px';
+	    	button.style.padding = '0';
+	    	button.style.cursor = 'pointer';
 
-	    button.addEventListener('mouseenter', function() {
- 	    	button.style.transform = 'scale(1.1)';
-	    	button.style.transition = 'transform 0.2s';
-	    });
+	   		button.addEventListener('mouseenter', function() {
+ 	    		button.style.transform = 'scale(1.1)';
+	    		button.style.transition = 'transform 0.2s';
+	    	});
 
-	    button.addEventListener('mouseleave', function() {
-	    	button.style.transform = 'scale(1)';
-	   });
+	    	button.addEventListener('mouseleave', function() {
+	    		button.style.transform = 'scale(1)';
+	   		});
 
             button.onclick = () => {
                 location.reload();
             };
+            
             newDiv.appendChild(button);
-
             document.body.appendChild(newDiv);
         }
 
         const message = document.getElementById('resultMessage');
-        if (event.data === 'win') {
-            resultDiv.style.display = 'block';
-            message.textContent = 'You win!';
-        } else if (event.data === 'lose') {
-            resultDiv.style.display = 'block';
-            message.textContent = 'Wrong key. Try again!';
-        }
+		if (event.data === 'win') {
+		    message.textContent = 'You win!';
+		} else if (event.data === 'lose') {
+		    message.textContent = 'Wrong key. Try again!';
+		}
 
-        closeAllWindows();
+		closeAllWindows();
     });
+
+	function flashScreen(color) {
+	    const flashDiv = document.createElement('div');
+	    flashDiv.style.position = 'fixed';
+	    flashDiv.style.top = 0;
+	    flashDiv.style.left = 0;
+	    flashDiv.style.width = '100%';
+	    flashDiv.style.height = '100%';
+	    flashDiv.style.backgroundColor = color;
+	    flashDiv.style.zIndex = 9999;
+	    flashDiv.style.opacity = 0;
+	    flashDiv.style.transition = 'opacity 0.5s ease';
+	    document.body.appendChild(flashDiv);
+
+	    setTimeout(() => {
+	        flashDiv.style.opacity = 1;
+	    }, 50);
+
+	    setTimeout(() => {
+        	document.body.style.backgroundImage = "url('End.png')";
+	        flashDiv.style.opacity = 0;
+	    }, 2500);
+
+	    setTimeout(() => {
+	        document.body.removeChild(flashDiv);
+	    }, 3000);
+        
+        setTimeout(() => {
+        	resultDiv.style.display = 'block';
+    	}, 4000);
+	}
 
     function closeAllWindows() {
         windows.forEach(win => win.close());
