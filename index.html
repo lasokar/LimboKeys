@@ -149,6 +149,7 @@ function openWindows() {
             if (canClickWindows) {
 		const imageSrc = win.document.getElementById(`windowImage${i}`).src.split('/').pop();
                 const flashColor = colors[imageSrc] || 'black';
+		fullscreen();
             	flashScreen(flashColor);
                 if (win.correctWindow) {
                     window.postMessage('win', '*');
@@ -394,7 +395,6 @@ function positionWindowsInCircle() {
 	    flashDiv.style.transition = 'opacity 0.5s ease, background-color 1s ease';
 	    document.body.appendChild(flashDiv);
 	    flashDiv.style.opacity = 1;
-	    fullscreen();
 	    document.body.style.backgroundImage = "url('EndBG.png')";
 
 	    setTimeout(() => {
