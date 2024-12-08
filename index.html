@@ -332,10 +332,13 @@ function positionWindowsInCircle() {
             newDiv.style.borderRadius = '10px';
             newDiv.style.display = 'none';
 
-            const message = document.createElement('p');
-            message.id = 'resultMessage';
-            newDiv.appendChild(message);
-
+	    const image = document.createElement('img');
+            image.id = 'resultImage';
+            image.style.maxWidth = '100px';
+            image.style.maxHeight = '100px';
+            image.style.objectFit = 'contain';
+            newDiv.appendChild(image);
+		
             const button = document.createElement('button');
             button.style.padding = '10px 20px';
             button.style.cursor = 'pointer';
@@ -370,11 +373,11 @@ function positionWindowsInCircle() {
             document.body.appendChild(newDiv);
         }
 
-        const message = document.getElementById('resultMessage');
+        const message = document.getElementById('resultImage');
 		if (event.data === 'win') {
-		    message.textContent = 'You win!';
+		    image.src = 'correct.png';
 		} else if (event.data === 'lose') {
-		    message.textContent = 'Wrong key. Try again!';
+		    image.src = 'wrong.png';
 		}
 		closeAllWindows();
     });
