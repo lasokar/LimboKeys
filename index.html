@@ -369,11 +369,6 @@ function positionWindowsInCircle() {
 	        button.style.transform = 'scale(1)';
 	    });
 		
-	    button.addEventListener('transitionend', function() {
-   	        if (button.style.opacity === '1') {
-                button.style.pointerEvents = 'auto';
-    	    }
-		
             button.onclick = () => {
                 location.reload();
             };
@@ -418,6 +413,8 @@ function positionWindowsInCircle() {
 	    document.body.removeChild(flashDiv);
 	    resultDiv.style.transition = 'opacity 1s ease';
 	    resultDiv.style.opacity = 1;
+	    const button = resultDiv.querySelector('button');
+            button.style.pointerEvents = 'auto';
 	}, 5550);
     }
 
