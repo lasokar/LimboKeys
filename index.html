@@ -373,13 +373,13 @@ function positionWindowsInCircle() {
             document.body.appendChild(newDiv);
         }
 
-        const message = document.getElementById('resultImage');
-		if (event.data === 'win') {
-		    image.src = 'correct.png';
-		} else if (event.data === 'lose') {
-		    image.src = 'wrong.png';
-		}
-		closeAllWindows();
+        const image = document.getElementById('resultImage');
+	if (event.data === 'win') {
+	    image.src = 'correct.png';
+	} else if (event.data === 'lose') {
+	    image.src = 'wrong.png';
+	}
+	closeAllWindows();
     });
 
 	function flashScreen(color) {
