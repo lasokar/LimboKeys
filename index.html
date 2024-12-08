@@ -398,6 +398,10 @@ function positionWindowsInCircle() {
 	    }, 50);
 
 	    setTimeout(() => {
+        	flashDiv.style.backgroundColor = 'black';
+   	    }, 1000);
+		
+	    setTimeout(() => {
         	document.body.style.backgroundImage = "url('EndBG.png')";
 	        flashDiv.style.opacity = 0;
 	    }, 2500);
