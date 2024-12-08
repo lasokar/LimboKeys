@@ -358,16 +358,22 @@ function positionWindowsInCircle() {
 	    button.style.height = '100px';
 	    button.style.padding = '0';
 	    button.style.cursor = 'pointer';
+	    button.style.pointerEvents = 'none';
 
 	    button.addEventListener('mouseenter', function() {
- 	    button.style.transform = 'scale(1.1)';
-	    button.style.transition = 'transform 0.2s';
+ 	        button.style.transform = 'scale(1.1)';
+	        button.style.transition = 'transform 0.2s';
 	    });
 
 	    button.addEventListener('mouseleave', function() {
-	    button.style.transform = 'scale(1)';
+	        button.style.transform = 'scale(1)';
 	    });
-
+		
+	    button.addEventListener('transitionend', function() {
+   	        if (button.style.opacity === '1') {
+                button.style.pointerEvents = 'auto';
+    	    }
+		
             button.onclick = () => {
                 location.reload();
             };
