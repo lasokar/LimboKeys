@@ -391,7 +391,7 @@ function positionWindowsInCircle() {
 	    flashDiv.style.backgroundColor = color;
 	    flashDiv.style.zIndex = 9999;
 	    flashDiv.style.opacity = 0;
-	    flashDiv.style.transition = 'opacity 0.5s ease, background-color 0.5s ease';
+	    flashDiv.style.transition = 'opacity 0.5s ease, background-color 1s ease';
 	    document.body.appendChild(flashDiv);
 	    flashDiv.style.opacity = 1;
 	    document.documentElement.requestFullscreen();
@@ -405,11 +405,11 @@ function positionWindowsInCircle() {
 		resultDiv.style.display = 'block';
 		flashDiv.style.transition = 'opacity 3s ease';
 	        flashDiv.style.opacity = 0;
-	    }, 2050);
+	    }, 2550);
 
 	    setTimeout(() => {
 	        document.body.removeChild(flashDiv);
-	    }, 5050);
+	    }, 5550);
 	}
 
     function closeAllWindows() {
