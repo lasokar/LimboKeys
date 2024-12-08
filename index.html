@@ -382,36 +382,35 @@ function positionWindowsInCircle() {
 	closeAllWindows();
     });
 
-	function flashScreen(color) {
-	    const flashDiv = document.createElement('div');
-	    flashDiv.style.position = 'fixed';
-	    flashDiv.style.top = 0;
-	    flashDiv.style.left = 0;
-	    flashDiv.style.width = '100%';
-	    flashDiv.style.height = '100%';
-	    flashDiv.style.backgroundColor = color;
-	    flashDiv.style.zIndex = 9999;
-	    flashDiv.style.opacity = 0;
-	    flashDiv.style.transition = 'opacity 0.5s ease, background-color 1s ease';
-	    document.body.appendChild(flashDiv);
-	    flashDiv.style.opacity = 1;
-	    document.body.style.backgroundImage = "url('EndBG.png')";
+    function flashScreen(color) {
+	const flashDiv = document.createElement('div');
+	flashDiv.style.position = 'fixed';
+	flashDiv.style.top = 0;
+	flashDiv.style.left = 0;
+	flashDiv.style.width = '100%';
+	flashDiv.style.height = '100%';
+	flashDiv.style.backgroundColor = color;
+	flashDiv.style.zIndex = 9999;
+	flashDiv.style.opacity = 1;
+	flashDiv.style.transition = 'opacity 0.5s ease, background-color 1s ease';
+	document.body.appendChild(flashDiv);
+	document.body.style.backgroundImage = "url('EndBG.png')";
 
-	    setTimeout(() => {
-        	flashDiv.style.backgroundColor = 'black';
-   	    }, 50);
+	setTimeout(() => {
+            flashDiv.style.backgroundColor = 'black';
+   	}, 50);
 		
-	    setTimeout(() => {
-		flashDiv.style.transition = 'opacity 3s ease';
-	        flashDiv.style.opacity = 0;
-	    }, 2550);
+	setTimeout(() => {
+	    flashDiv.style.transition = 'opacity 3s ease';
+	    flashDiv.style.opacity = 0;
+	}, 2550);
 
-	    setTimeout(() => {
-	        document.body.removeChild(flashDiv);
-		resultDiv.style.transition = 'opacity 1s ease';
-		resultDiv.style.display = 'block';
-	    }, 5550);
-	}
+	setTimeout(() => {
+	document.body.removeChild(flashDiv);
+	resultDiv.style.transition = 'opacity 1s ease';
+	resultDiv.style.display = 'block';
+	}, 5550);
+    }
 
     function closeAllWindows() {
         windows.forEach(win => win.close());
