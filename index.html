@@ -330,12 +330,13 @@ function positionWindowsInCircle() {
             newDiv.style.color = 'white';
             newDiv.style.textAlign = 'center';
             newDiv.style.borderRadius = '10px';
-            newDiv.style.display = 'none';
+	    newDiv.style.flexDirection = 'column';
+	    newDiv.style.display = 'none';
 
 	    const image = document.createElement('img');
             image.id = 'resultImage';
-            image.style.maxWidth = '100px';
-            image.style.maxHeight = '100px';
+            image.style.maxWidth = '300px';
+            image.style.maxHeight = '300px';
             image.style.objectFit = 'contain';
             newDiv.appendChild(image);
 		
@@ -408,7 +409,7 @@ function positionWindowsInCircle() {
 	setTimeout(() => {
 	document.body.removeChild(flashDiv);
 	resultDiv.style.transition = 'opacity 1s ease';
-	resultDiv.style.display = 'block';
+	resultDiv.style.display = 'flex';
 	}, 5550);
     }
 
