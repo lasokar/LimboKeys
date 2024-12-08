@@ -100,8 +100,17 @@
 function openWindows() {
     const screenWidth = window.innerWidth;
     const offsetX = (screenWidth - (gridSize.cols * spacing.x)) / 2;
-    const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink', 'cyan'];
-
+    const colors = {
+            'key1.png': 'red',
+            'key2.png': 'blue',
+            'key3.png': 'green',
+            'key4.png': 'yellow',
+            'key5.png': 'purple',
+            'key6.png': 'orange',
+            'key7.png': 'pink',
+            'key8.png': 'cyan'
+        };
+	
     for (let i = 0; i < gridSize.rows * gridSize.cols; i++) {
         const x = offsetX + (i % gridSize.cols) * spacing.x;
         const y = Math.floor(i / gridSize.cols) * spacing.y + 100;
@@ -136,10 +145,11 @@ function openWindows() {
         positions.push({ x, y });
 
         win.correctWindow = false;
-        win.color = colors[i % colors.length];
         win.addEventListener('click', () => {
             if (canClickWindows) {
-            	flashScreen(win.color);
+		const imageSrc = win.document.getElementById(`windowImage${i}`).src.split('/').pop();
+                const flashColor = colors[imageSrc] || 'black';
+            	flashScreen(flashColor);
                 if (win.correctWindow) {
                     window.postMessage('win', '*');
                 } else {
