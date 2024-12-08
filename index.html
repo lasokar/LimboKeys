@@ -402,13 +402,13 @@ function positionWindowsInCircle() {
    	    }, 50);
 		
 	    setTimeout(() => {
-		resultDiv.style.display = 'block';
 		flashDiv.style.transition = 'opacity 3s ease';
 	        flashDiv.style.opacity = 0;
 	    }, 2550);
 
 	    setTimeout(() => {
 	        document.body.removeChild(flashDiv);
+		resultDiv.style.display = 'block';
 	    }, 5550);
 	}
 
