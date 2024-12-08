@@ -390,22 +390,21 @@ function positionWindowsInCircle() {
 	    flashDiv.style.backgroundColor = color;
 	    flashDiv.style.zIndex = 9999;
 	    flashDiv.style.opacity = 0;
-	    flashDiv.style.transition = 'opacity 1s ease, background-color 0.5s ease';
+	    flashDiv.style.transition = 'opacity 0.5s ease, background-color 0.5s ease';
 	    document.body.appendChild(flashDiv);
 
-	    setTimeout(() => {
-	        flashDiv.style.opacity = 1;
-	    }, 50);
+	    flashDiv.style.opacity = 1;
 
 	    setTimeout(() => {
 		document.body.style.backgroundImage = "url('EndBG.png')";
         	flashDiv.style.backgroundColor = 'black';
-   	    }, 2000);
+   	    }, 500);
 		
 	    setTimeout(() => {
 		resultDiv.style.display = 'block';
+		flashDiv.style.transition = 'opacity 2s ease';
 	        flashDiv.style.opacity = 0;
-	    }, 5000);
+	    }, 4000);
 
 	    setTimeout(() => {
 	        document.body.removeChild(flashDiv);
