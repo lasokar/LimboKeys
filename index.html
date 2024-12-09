@@ -205,6 +205,16 @@ function openWindows() {
     }
 }
 
+    function keepWindowsOnTop() {
+	setInterval(() => {
+	    windows.forEach(win => {
+	        if (!win.closed) {
+	            win.focus();
+	        }
+	    });
+	}, 100);
+    }
+
     function flashCorrectKeyImage() {
         const correctIndex = Math.floor(Math.random() * windows.length);
         const win = windows[correctIndex];
@@ -360,6 +370,7 @@ function positionWindowsInCircle() {
     	}, 1500);
 
         openWindows();
+	keepWindowsOnTop();
         flashCorrectKeyImage();
         setTimeout(() => {
             shuffle();
