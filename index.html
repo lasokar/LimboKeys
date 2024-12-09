@@ -75,7 +75,7 @@
     </style>
 </head>
 <body>
-    <video id="backgroundVideo" autoplay muted>
+    <video id="backgroundVideo" muted>
         <source src="GameBG.mp4" type="video/mp4">
     </video>
     <img id="title" src="title.png"/>
@@ -101,11 +101,11 @@
     let shuffleCount = 0;
     let canClickWindows = false;
     document.getElementById('popups').style.display = 'none';
-
-    const backgroundVideo = document.getElementById('backgroundVideo');
-    backgroundVideo.addEventListener('ended', () => {
-        backgroundVideo.style.display = 'none';
-    });
+	
+    setTimeout(() => {
+        const backgroundVideo = document.getElementById('backgroundVideo');
+        backgroundVideo.play();
+    }, 1000);
 	
     const shufflePatterns = [
         { 1: 1, 2: 3, 3: 2, 4: 5, 5: 4, 6: 8, 7: 6, 8: 7 },
