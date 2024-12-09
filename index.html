@@ -440,10 +440,11 @@ function positionWindowsInCircle() {
         const image = document.getElementById('resultImage');
 	if (event.data === 'win') {
 	    image.src = 'correct.png';
+	    closeAllWindows();
 	} else if (event.data === 'lose') {
 	    image.src = 'wrong.png';
+	    closeAllWindows();
 	}
-	closeAllWindows();
     });
 
     function flashScreen(color) {
