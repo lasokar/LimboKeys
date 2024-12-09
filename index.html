@@ -157,6 +157,7 @@ function openWindows() {
         const y = Math.floor(i / gridSize.cols) * spacing.y + 100;
 
         const win = window.open('', '_blank', `width=${windowSize.width},height=${windowSize.height},left=${x},top=${y}`);
+	win.document.head.innerHTML += `<link rel="icon" type="image/png" href="key.png">`;
         win.document.write(`
             <style>
                 body {
@@ -183,7 +184,7 @@ function openWindows() {
                 <img src="${backgroundImage}" id="windowImage${i}" alt="Limbo Key" draggable="false">
             </div>
         `);
-	win.document.title = `Key ${i + 1}`;
+	win.document.title = "Key";
         windows.push(win);
         gridIDs.push(i + 1);
         positions.push({ x, y });
