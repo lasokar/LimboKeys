@@ -48,7 +48,7 @@
 </head>
 <body>
     <video id="backgroundVideo" autoplay muted loop>
-        <source src="your-video.mp4" type="video/mp4">
+        <source src="GameBG.mp4" type="video/mp4">
     </video>
     <h1 id="title">Limbo Keys</h1>
     <p id="popups">Enable Popups to play!</p>
@@ -318,7 +318,6 @@ function positionWindowsInCircle() {
 	document.getElementById('backgroundVideo').style.display = 'block';
         document.getElementById('startGameBtn').style.display = 'none';
         document.getElementById('title').style.display = 'none';
-	document.body.style.backgroundImage = "url('GameBG.png')";
         document.body.style.backgroundSize = 'cover';
 	    
         const audio = document.getElementById('limboAudio');
