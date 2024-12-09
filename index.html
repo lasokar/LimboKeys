@@ -402,12 +402,12 @@ function positionWindowsInCircle() {
 
 	setTimeout(() => {
             flashDiv.style.backgroundColor = 'black';
-   	}, 50);
+   	}, 250);
 		
 	setTimeout(() => {
 	    flashDiv.style.transition = 'opacity 3s ease';
 	    flashDiv.style.opacity = 0;
-	}, 2550);
+	}, 2750);
 
 	setTimeout(() => {
 	    document.body.removeChild(flashDiv);
@@ -415,7 +415,7 @@ function positionWindowsInCircle() {
 	    resultDiv.style.opacity = 1;
 	    const button = resultDiv.querySelector('button');
             button.style.pointerEvents = 'auto';
-	}, 5550);
+	}, 5750);
     }
 
     function closeAllWindows() {
