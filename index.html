@@ -155,6 +155,7 @@ function openWindows() {
                 <img src="${backgroundImage}" id="windowImage${i}" alt="Limbo Key" draggable="false">
             </div>
         `);
+	win.document.title = `Key ${i + 1}`;
         windows.push(win);
         gridIDs.push(i + 1);
         positions.push({ x, y });
