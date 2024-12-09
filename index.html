@@ -414,6 +414,7 @@ function positionWindowsInCircle() {
 	flashDiv.style.transition = 'opacity 0.5s ease, background-color 1s ease';
 	document.body.appendChild(flashDiv);
 	document.body.style.backgroundImage = "url('EndBG.png')";
+	document.getElementById('backgroundVideo').style.display = 'none';
 
 	setTimeout(() => {
             flashDiv.style.backgroundColor = 'black';
