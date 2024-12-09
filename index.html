@@ -101,6 +101,7 @@
     let shuffleCount = 0;
     let canClickWindows = false;
     document.getElementById('popups').style.display = 'none';
+    window.addEventListener('beforeunload', closeAllWindows);
 	
     const shufflePatterns = [
         { 1: 1, 2: 3, 3: 2, 4: 5, 5: 4, 6: 8, 7: 6, 8: 7 },
