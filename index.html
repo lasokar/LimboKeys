@@ -9,6 +9,10 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
+	    background-image: url('MenuBG.png');
+    	    background-size: cover;
+    	    background-position: center;
+    	    background-repeat: no-repeat;
             margin: 20px;
         }
         h1 {
@@ -44,9 +48,19 @@
             z-index: -1;
             display: none;
         }
+	#overlay {
+    	    position: fixed;
+    	    top: 0;
+    	    left: 0;
+    	    width: 100%;
+    	    height: 100%;
+   	    background-color: rgba(0, 0, 0, 0.6);
+   	    z-index: 1;
+	}
     </style>
 </head>
 <body>
+    <div id="overlay"></div>
     <video id="backgroundVideo" autoplay muted loop>
         <source src="GameBG.mp4" type="video/mp4">
     </video>
@@ -317,6 +331,7 @@ function positionWindowsInCircle() {
 
     function startGame() {
 	document.getElementById('backgroundVideo').style.display = 'block';
+	document.getElementById('overlay').style.display = 'none';
         document.getElementById('startGameBtn').style.display = 'none';
         document.getElementById('title').style.display = 'none';
         document.body.style.backgroundSize = 'cover';
