@@ -301,13 +301,14 @@ function positionWindowsInCircle() {
     const interval = setInterval(() => {
         count++;
         const progress = count / steps;
-        windows.forEach((win, i) => {
-            const angle = i * angleStep;
+
+        gridIDs.forEach((gridID, i) => {
+            const win = windows[i];
+            const angle = (gridID - 1) * angleStep;
             const targetX = centerX + circleRadius * Math.cos(angle) - windowSize.width / 2;
             const targetY = centerY + circleRadius * Math.sin(angle) - windowSize.height / 2;
 
             const windowImage = win.document.getElementById(`windowImage${i}`);
-            
             const rotationAngle = -360 * progress * 4;
 
             windowImage.style.transform = `rotate(${rotationAngle}deg)`;
