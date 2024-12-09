@@ -7,15 +7,19 @@
     <link rel="icon" type="image/png" href="key.png">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
+	    font-family: Arial, sans-serif;
+	    text-align: center;
 	    background-image: url('MenuBG.png');
-    	    background-size: cover;
-    	    background-position: center;
-    	    background-repeat: no-repeat;
-            margin: 20px;
+	    background-size: cover;
+	    background-position: center;
+	    background-repeat: no-repeat;
+	    margin: 0;
 	    height: 100vh;
-        }
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+ 	    flex-direction: column;
+	}
         .button-container {
             margin-top: 20px;
         }
@@ -31,13 +35,13 @@
 	    background-color: transparent;
 	    border: none;
 	    outline: none;
-	    width: 100px;
-	    height: 100px;
+	    width: 300px;
+	    height: 300px;
 	    padding: 0;
 	    transition: transform 0.2s;
 	}
 	.start-button:hover {
-  	    transform: scale(1.1);
+  	    transform: scale(1.25);
 	}
 	.startGameBtn:active {
 	    transform: scale(1);
@@ -65,6 +69,11 @@
     	   display: block;
            margin: 0 auto;
    	   max-width: 100%;
+	}
+	#popups {
+    	   max-width: 100%;
+   	   height: auto;
+   	   margin-top: 20px;
 	}
     </style>
 </head>
