@@ -410,6 +410,7 @@ function spinCircle() {
             image.style.objectFit = 'contain';
 	    image.style.userSelect = 'none';
  	    image.style.pointerEvents = 'none';
+	    image.style.userDrag = 'none';
             newDiv.appendChild(image);
 		
             const button = document.createElement('button');
@@ -449,11 +450,9 @@ function spinCircle() {
         const image = document.getElementById('resultImage');
 	if (event.data === 'win') {
 	    image.src = 'correct.png';
-	    image.setAttribute('draggable', 'false');
 	    closeAllWindows();
 	} else if (event.data === 'lose') {
 	    image.src = 'wrong.png';
-	    image.setAttribute('draggable', 'false');
 	    closeAllWindows();
 	}
     });
