@@ -1,3 +1,3 @@
 # Limbo Keys
-## https://lasokar.github.io/LimboKeys/
-Limbo Keys recreated with browser popup windows
+## Play at https://lasokar.github.io/LimboKeys/
+Geometry Dash limbo keys recreated with HTML browser popup windows
