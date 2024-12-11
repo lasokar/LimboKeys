@@ -61,12 +61,16 @@
     	   display: block;
            margin: 0 auto;
    	   max-width: 75%;
+	   user-select: none;
+           pointer-events: none;
 	}
 	#popups {
 	   top: 35%;
    	   height: auto;
    	   margin-top: 20px;
 	   max-width: 50%;
+           user-select: none;
+           pointer-events: none;
 	}
 	.button-container {
    	   top: 35%;
@@ -78,8 +82,8 @@
     <video id="backgroundVideo" muted>
         <source src="GameBG.mp4" type="video/mp4">
     </video>
-    <img id="title" src="title.png"/>
-    <img id="popups" src="popupsalert.png"/>
+    <img id="title" src="title.png" draggable="false"/>
+    <img id="popups" src="popupsalert.png" draggable="false"/>
     <div class="button-container">
         <button id="startGameBtn" class="start-button" onclick="startGame()"/>
     </div>
@@ -404,6 +408,9 @@ function spinCircle() {
             image.style.maxWidth = '300px';
             image.style.maxHeight = '300px';
             image.style.objectFit = 'contain';
+	    image.style.userSelect = 'none';
+ 	    image.style.pointerEvents = 'none';
+	    image.setAttribute('draggable', 'false');
             newDiv.appendChild(image);
 		
             const button = document.createElement('button');
