@@ -410,7 +410,7 @@ function spinCircle() {
             image.style.objectFit = 'contain';
 	    image.style.userSelect = 'none';
  	    image.style.pointerEvents = 'none';
-	    image.style.userDrag = 'none';
+	    image.setAttribute('draggable', 'false');
             newDiv.appendChild(image);
 		
             const button = document.createElement('button');
