@@ -78,8 +78,8 @@
 	}
 	.scrolling-background {
     	   background-image: url('EndBG.png');
-   	   background-size: contain;
-  	   background-repeat: repeat-y;
+   	   background-size: auto 100%;
+  	   background-repeat: repeat-x;
     	   animation: scrollBackground 10s linear infinite;
 	}
 	@keyframes scrollBackground {
@@ -87,7 +87,7 @@
                background-position: 0 0;
     	   }
     	   100% {
-               background-position: 0 100%;
+               background-position: -100% 0;
     	   }
 	 }
     </style>
