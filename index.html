@@ -76,7 +76,7 @@
    	   top: 35%;
 	   z-index: 9999;
 	}
-	.scrolling-background {
+	.ending-background {
     	   background-image: url('EndBG.png');
    	   background-size: contain;
   	   background-repeat: repeat-x;
@@ -482,8 +482,7 @@ function spinCircle() {
 	flashDiv.style.opacity = 1;
 	flashDiv.style.transition = 'opacity 0.5s ease, background-color 1s ease';
 	document.body.appendChild(flashDiv);
-	document.body.style.backgroundImage = "url('EndBG.png')";
-	document.body.classList.add('scrolling-background');
+	document.body.classList.add('ending-background');
 	document.getElementById('backgroundVideo').style.display = 'none';
 
 	setTimeout(() => {
