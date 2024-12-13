@@ -132,6 +132,11 @@
 	  user-select: none;
           pointer-events: none;
 	}
+	.difficulty-text {
+            font-family: 'Pusab', Arial, sans-serif;
+            font-size: 16px;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -146,6 +151,7 @@
     <div class="slider-container">
 	<img src="difficulty.png" alt="Difficulty:" id="difficultyHeader" draggable="false"></img>
         <input type="range" id="difficultySlider" min="20" max="35" value="26" step="1">
+	<span class="difficulty-text" id="difficultyText">26</span>
     </div>
 	
     <audio id="limboAudio" src="limbo.mp3" preload="auto"></audio>
@@ -169,6 +175,11 @@
     
     const difficultySlider = document.getElementById('difficultySlider');
     const difficultyDisplay = document.getElementById('difficulty');
+    const difficultyText = document.getElementById('difficultyText');
+
+    slider.addEventListener('input', function () {
+        difficultyText.textContent = difficultySlider.value;
+    });
 
     difficultySlider.addEventListener('input', () => {
        const difficultyValue = difficultySlider.value;
