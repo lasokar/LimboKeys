@@ -211,7 +211,7 @@
             const number = parseInt(value, 10);
             if (number >= 1 && number <= difficultySlider.max - difficultySlider.min) {
 		difficultyText.value = value;
-                difficultySlider.value = difficultyText.value + difficultySlider.min;
+                difficultySlider.value = difficultyText.value
             } else {
                 difficultyText.value = difficultySlider.value - difficultySlider.min;
             }
