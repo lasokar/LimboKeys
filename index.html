@@ -170,7 +170,7 @@
         <input type="range" id="difficultySlider" min="20" max="35" value="26" step="1">
     </div>
     <div class="difficulty-text-container">
-        <input class="difficulty-text" type="text" id="difficultyText" value="26">
+        <input class="difficulty-text" type="text" id="difficultyText" value="6">
     </div>
 	
     <audio id="limboAudio" src="limbo.mp3" preload="auto"></audio>
@@ -197,7 +197,7 @@
     const difficultyText = document.getElementById('difficultyText');
 
     difficultySlider.addEventListener('input', function () {
-        difficultyText.value = difficultySlider.value;
+        difficultyText.value = difficultySlider.value - difficultySlider.min;
     });
 
     difficultyText.addEventListener('input', function () {
@@ -209,11 +209,11 @@
             }
 	    
             const number = parseInt(value, 10);
-            if (number >= difficultySlider.min && number <= difficultySlider.max) {
-                difficultySlider.value = value;
+            if (number >= 1 && number <= difficultySlider.max - difficultySlider.min) {
+                difficultySlider.value = value + difficultySlider.min;
                 difficultyText.value = value;
             } else {
-                difficultyText.value = difficultySlider.value;
+                difficultyText.value = difficultySlider.value - difficultySlider.min;
             }
    });
 
