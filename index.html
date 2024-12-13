@@ -210,8 +210,8 @@
 	    
             const number = parseInt(value, 10);
             if (number >= 1 && number <= difficultySlider.max - difficultySlider.min) {
-                difficultySlider.value = value + difficultySlider.min;
-                difficultyText.value = value;
+		difficultyText.value = value;
+                difficultySlider.value = difficultyText.value + difficultySlider.min;
             } else {
                 difficultyText.value = difficultySlider.value - difficultySlider.min;
             }
