@@ -122,6 +122,10 @@
           background: url('slider_thumb_active.png');
           background-size: cover;
         }
+	#difficultyHeader {
+   	  max-width: 50%;
+   	  height: auto;
+	}
     </style>
 </head>
 <body>
@@ -134,7 +138,7 @@
         <button id="startGameBtn" class="start-button" onclick="startGame()"/>
     </div>
     <div class="slider-container">
-	<img src="difficulty.png" alt="Difficulty:"></img>
+	<img src="difficulty.png" alt="Difficulty:" id="difficultyHeader" draggable="false"></img>
         <input type="range" id="difficultySlider" min="15" max="40" value="26" step="1">
     </div>
 	
