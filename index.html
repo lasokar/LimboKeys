@@ -197,7 +197,7 @@
     const difficultyText = document.getElementById('difficultyText');
 
     difficultySlider.addEventListener('input', function () {
-        difficultyText.value = difficultySlider.value - difficultySlider.min;
+        difficultyText.value = difficultySlider.value + 1 - difficultySlider.min;
     });
 
     difficultyText.addEventListener('input', function () {
@@ -210,10 +210,10 @@
 	    
             const number = parseInt(value, 10);
             if (number >= 1 && number <= difficultySlider.max - difficultySlider.min) {
-                difficultySlider.value = value + difficultySlider.min;
+                difficultySlider.value = value - 1 + difficultySlider.min;
                 difficultyText.value = value;
             } else {
-                difficultyText.value = difficultySlider.value - difficultySlider.min;
+                difficultyText.value = difficultySlider.value + 1 - difficultySlider.min;
             }
    });
 
