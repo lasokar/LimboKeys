@@ -209,11 +209,15 @@
             }
 	    
             const number = parseInt(value, 10);
-            if (number >= 1 && number <= difficultySlider.max - difficultySlider.min) {
+	    const sliderValue = parseInt(difficultySlider.value, 10);
+            const sliderMin = parseInt(difficultySlider.min, 10);
+            const sliderMax = parseInt(difficultySlider.max, 10);
+	    
+            if (number >= 1 && number <= sliderMax - sliderMin) {
 		difficultyText.value = value;
-                difficultySlider.value = difficultyText.value
+                difficultySlider.value = number + sliderMin;
             } else {
-                difficultyText.value = difficultySlider.value - difficultySlider.min;
+                difficultyText.value = sliderValue - sliderMin;
             }
    });
 
