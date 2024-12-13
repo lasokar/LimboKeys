@@ -101,9 +101,14 @@
     <div class="button-container">
         <button id="startGameBtn" class="start-button" onclick="startGame()"/>
     </div>
-
+    <div class="slider-container">
+        <label for="difficultySlider">Difficulty:</label>
+        <input type="range" id="difficultySlider" min="15" max="40" value="26" step="1">
+        Difficulty: <span id="difficulty">26</span>
+    </div>
+	
     <audio id="limboAudio" src="limbo.mp3" preload="auto"></audio>
-
+	
 <script>
     const windows = [];
     let positions = [];
@@ -111,16 +116,26 @@
     const gridSize = { rows: 4, cols: 2 };
     const windowSize = { width: 100, height: 100 };
     const spacing = { x: 200, y: 200 };
-    const shuffleLimit = 26;
-    const shuffleDuration = 325;
+    const totalShuffleTime = 8450;
     const backgroundImage = 'key.png';
     const circleRadius = 250;
     const transitionDuration = 3000;
     let shuffleCount = 0;
+    let shuffleDuration = 325;
     let canClickWindows = false;
     document.getElementById('popups').style.display = 'none';
     window.addEventListener('beforeunload', closeAllWindows);
-	
+    
+    const difficultySlider = document.getElementById('difficultySlider');
+    const difficultyDisplay = document.getElementById('difficulty');
+
+    difficultySlider.addEventListener('input', () => {
+       const difficultyValue = difficultySlider.value;
+       const shuffleLimit = difficultySlider.value;
+       shuffleDuration = totalShuffleTime / difficultyValue;
+       difficultyDisplay.textContent = shuffleDuration;
+    });
+   	
     const shufflePatterns = [
         { 1: 1, 2: 3, 3: 2, 4: 5, 5: 4, 6: 8, 7: 6, 8: 7 },
         { 1: 2, 2: 4, 3: 1, 4: 3, 5: 7, 6: 5, 7: 8, 8: 6 },
@@ -253,7 +268,7 @@ function openWindows() {
         const interval = setInterval(() => {
             shuffleGrid(Math.floor(Math.random() * shufflePatterns.length));
             shuffleCount++;
-            if (shuffleCount >= shuffleLimit) {
+            if (shuffleCount >= difficultySlider.value) {
                 clearInterval(interval);
                 setTimeout(() => {
                     changeImages();
