@@ -76,6 +76,14 @@
    	   top: 35%;
 	   z-index: 9999;
 	}
+	.slider-container {
+    	  position: absolute;
+   	  top: calc(35% + 80px);
+   	  left: 50%;
+	  transform: translateX(-50%);
+    	  z-index: -1;
+   	  text-align: center;
+	}
 	.ending-background {
     	   background-image: url('EndingBG.png');
    	   background-size: 100vh;
@@ -124,11 +132,11 @@
     <img id="popups" src="popupsalert.png" draggable="false"/>
     <div class="button-container">
         <button id="startGameBtn" class="start-button" onclick="startGame()"/>
-	    <div class="slider-container">
-        	<label for="difficultySlider">Difficulty:</label>
-        	<input type="range" id="difficultySlider" min="15" max="40" value="26" step="1">
-        	Difficulty: <span id="difficulty">26</span>
-    	    </div>
+    </div>
+    <div class="slider-container">
+        <label for="difficultySlider">Difficulty:</label>
+        <input type="range" id="difficultySlider" min="15" max="40" value="26" step="1">
+        Difficulty: <span id="difficulty">26</span>
     </div>
 	
     <audio id="limboAudio" src="limbo.mp3" preload="auto"></audio>
