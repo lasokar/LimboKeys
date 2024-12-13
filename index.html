@@ -203,10 +203,6 @@
     difficultyText.addEventListener('input', function () {
             let value = difficultyText.value;
             value = value.replace(/[^0-9]/g, '');
-
-	    if (value < 1) {
-    		value = 1;
-	    }
 	    
             const number = parseInt(value, 10);
 	    const sliderValue = parseInt(difficultySlider.value, 10);
