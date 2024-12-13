@@ -198,12 +198,21 @@
     });
 
     difficultyText.addEventListener('input', function () {
-            const value = parseInt(difficultyText.value, 10);
+            let value = difficultyText.value;
+            value = value.replace(/[^0-9]/g, '');
 
-            if (!isNaN(value) && value >= difficultySlider.min && value <= difficultySlider.max) {
-                difficultySlider.value = value;
+            if (value.length > 1) {
+                value = value[0];
             }
-        });
+	    
+            const number = parseInt(value, 10);
+            if (number >= difficultySlider.min && number <= difficultySlider.max) {
+                difficultySlider.value = value;
+                difficultyText.value = value;
+            } else {
+                difficultyText.value = difficultySlider.value;
+            }
+   });
 
     difficultySlider.addEventListener('input', () => {
        const difficultyValue = difficultySlider.value;
