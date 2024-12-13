@@ -170,7 +170,7 @@
         <input type="range" id="difficultySlider" min="20" max="35" value="26" step="1">
     </div>
     <div class="difficulty-text-container">
-        <input class="difficulty-text" type="text" id="difficultyText" value="7">
+        <input class="difficulty-text" type="text" id="difficultyText" value="7" maxlength="2">
     </div>
 	
     <audio id="limboAudio" src="limbo.mp3" preload="auto"></audio>
@@ -204,9 +204,9 @@
             let value = difficultyText.value;
             value = value.replace(/[^0-9]/g, '');
 
-            if (value.length > 2) {
-                value = value[0];
-            }
+	    if (value < 1) {
+    		value = 1;
+	    }
 	    
             const number = parseInt(value, 10);
 	    const sliderValue = parseInt(difficultySlider.value, 10);
