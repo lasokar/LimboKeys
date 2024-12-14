@@ -171,7 +171,7 @@
 	<img src="difficulty.png" alt="Difficulty:" id="difficultyHeader" draggable="false"></img>
         <input type="range" id="difficultySlider" min="20" max="35" value="26" step="1">
     </div>
-    <div class="difficulty-text-container">
+    <div class="difficulty-text-container" id="difficultyTextContainer">
         <input class="difficulty-text" type="text" id="difficultyText" value="7" maxlength="2">
     </div>
     <audio id="limboAudio" src="limbo.mp3" preload="auto"></audio>
@@ -490,6 +490,7 @@ function spinCircle() {
         document.getElementById('title').style.display = 'none';
 	document.getElementById('difficultyHeader').style.display = 'none';
 	document.getElementById('difficultySlider').style.display = 'none';
+	document.getElementById('difficultyTextContainer').style.display = 'none';
         document.body.style.backgroundSize = 'cover';
 	    
         const audio = document.getElementById('limboAudio');
