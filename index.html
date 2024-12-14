@@ -217,9 +217,12 @@
             const sliderMin = parseInt(difficultySlider.min, 10);
             const sliderMax = parseInt(difficultySlider.max, 10);
 	    
-            if (number < 1 || difficultyText.value === '') {
+            if (difficultyText.value === '') {
                 difficultySlider.value = sliderMin;
-            } else if (number > sliderMax - sliderMin + 1) {
+            } else if (number < 1) {
+		difficultyText.value = 1;
+		difficultySlider.value = sliderMin;
+	    } else if (number > sliderMax - sliderMin + 1) {
                 difficultyText.value = sliderMax - sliderMin + 1;
 		difficultySlider.value = sliderMax;
             } else {
