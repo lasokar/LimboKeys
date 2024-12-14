@@ -147,6 +147,9 @@
 	    z-index: 9999;
         }
         .difficulty-text-container {
+	    position: absolute;
+   	    top: calc(35% + 350px);
+   	    left: calc(-50% - 210px;
             background: black;
             opacity: 0.6;
             padding: 10px;
@@ -154,13 +157,6 @@
 	    width: 60px;
 	    height: 40px;
         }
-	.slider-wrapper {
-    	    display: flex;
-	    flex-direction: row;
-    	    align-items: center;
-   	    justify-content: center;
-   	    gap: 10px;
-	}
     </style>
 </head>
 <body>
@@ -172,14 +168,12 @@
     <div class="button-container">
         <button id="startGameBtn" class="start-button" onclick="startGame()"/>
     </div>
-    <div class="slider-wrapper">
-    	<div class="slider-container">
-	    <img src="difficulty.png" alt="Difficulty:" id="difficultyHeader" draggable="false"></img>
-            <input type="range" id="difficultySlider" min="20" max="35" value="26" step="1">
-    	</div>
-    	<div class="difficulty-text-container">
-            <input class="difficulty-text" type="text" id="difficultyText" value="7" maxlength="2">
-    	</div>
+    <div class="slider-container">
+	<img src="difficulty.png" alt="Difficulty:" id="difficultyHeader" draggable="false"></img>
+        <input type="range" id="difficultySlider" min="20" max="35" value="26" step="1">
+    </div>
+    <div class="difficulty-text-container">
+        <input class="difficulty-text" type="text" id="difficultyText" value="7" maxlength="2">
     </div>
     <audio id="limboAudio" src="limbo.mp3" preload="auto"></audio>
 	
