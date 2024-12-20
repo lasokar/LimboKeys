@@ -223,8 +223,10 @@
 		difficultyText.value = value;
                 difficultySlider.value = number + sliderMin - 1;
 	    }
-	    
-            difficultySlider.dispatchEvent(new Event('input'));
+
+	    if (difficultyText.value !== '') {
+                difficultySlider.dispatchEvent(new Event('input'));
+            }
    });
 
     difficultySlider.addEventListener('input', () => {
