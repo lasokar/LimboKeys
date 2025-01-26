@@ -340,8 +340,19 @@ function openWindows() {
             }
         });
     }
+    window.addEventListener('resize', () => {
+        updateWindowSizes();
+    });
 }
-
+	
+    function updateWindowSizes() {
+        windows.forEach(win => {
+            if (!win.closed) {
+                win.resizeTo(windowSize.width, windowSize.height);
+            }
+        });
+    }
+	
     function keepWindowsOnTop() {
 	setInterval(() => {
 	    windows.forEach(win => {
