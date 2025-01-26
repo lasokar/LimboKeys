@@ -185,12 +185,12 @@
     let positions = [];
     let gridIDs = [];
     const gridSize = { rows: 4, cols: 2 };
-    const windowSize = { width: 100, height: 100 };
-    const spacing = { x: 200, y: 200 };
+    const windowSize = { width: 100, height: 100 }; // default if it fails to be changed afterwards
+    const spacing = { x: 200, y: 200 };  // default if it fails to be changed afterwards
     const totalShuffleTime = 8450;
     const backgroundImage = 'key.png';
-    const circleRadius = 250;
     const transitionDuration = 3000;
+    let circleRadius = 250;
     let shuffleCount = 0;
     let shuffleDuration = 325;
     let canClickWindows = false;
@@ -200,7 +200,7 @@
     const difficultySlider = document.getElementById('difficultySlider');
     const difficultyDisplay = document.getElementById('difficulty');
     const difficultyText = document.getElementById('difficultyText');
-
+	
     difficultySlider.addEventListener('input', function () {
         difficultyText.value = difficultySlider.value - difficultySlider.min + 1;
     });
@@ -427,34 +427,26 @@ function shuffleGrid(patternIndex) {
         }
     }
 
-function updateWindowSize() {
-    const screenWidth = window.innerWidth;
-    const screenHeight = window.innerHeight;
+    function setWindowSize() {
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
 
-    windowSize.width = screenWidth * 0.1;
-    windowSize.height = screenHeight * 0.1;
+        windowSize.width = screenWidth * 0.1;
+        windowSize.height = screenHeight * 0.1;
 
-    spacing.x = screenWidth * 0.15;
-    spacing.y = screenHeight * 0.25;
-}
+        spacing.x = screenWidth * 0.15;
+        spacing.y = screenHeight * 0.25;
+    }
 
-function updateCircleRadius() {
-    const screenWidth = window.innerWidth;
-    const screenHeight = window.innerHeight;
-    circleRadius = Math.min(screenWidth, screenHeight) * 0.3;
-}
+    function setCircleRadius() {
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        circleRadius = Math.min(screenWidth, screenHeight) * 0.3;
+    }
 
-function updatePositionsOnResize() {
-    updateWindowSize();
-    updateCircleRadius();
-    positionWindowsInCircle();
-}
-
-updateWindowSize();
-updateCircleRadius();
-
-window.addEventListener('resize', updatePositionsOnResize);
-
+    setWindowSize();
+    setCircleRadius();
+	
 function positionWindowsInCircle() {
     const angleStep = (2 * Math.PI) / windows.length;
     const centerX = window.innerWidth / 2;
