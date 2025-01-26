@@ -427,6 +427,34 @@ function shuffleGrid(patternIndex) {
         }
     }
 
+function updateWindowSize() {
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+
+    windowSize.width = screenWidth * 0.1;
+    windowSize.height = screenHeight * 0.1;
+
+    spacing.x = screenWidth * 0.3;
+    spacing.y = screenHeight * 0.3;
+}
+
+function updateCircleRadius() {
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    circleRadius = Math.min(screenWidth, screenHeight) * 0.3;
+}
+
+function updatePositionsOnResize() {
+    updateWindowSize();
+    updateCircleRadius();
+    positionWindowsInCircle();
+}
+
+updateWindowSize();
+updateCircleRadius();
+
+window.addEventListener('resize', updatePositionsOnResize);
+
 function positionWindowsInCircle() {
     const angleStep = (2 * Math.PI) / windows.length;
     const centerX = window.innerWidth / 2;
