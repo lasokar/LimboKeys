@@ -443,9 +443,6 @@ function shuffleGrid(patternIndex) {
         const screenHeight = window.innerHeight;
         circleRadius = Math.min(screenWidth, screenHeight) * 0.3;
     }
-
-    setWindowSize();
-    setCircleRadius();
 	
 function positionWindowsInCircle() {
     const angleStep = (2 * Math.PI) / windows.length;
@@ -514,6 +511,8 @@ function spinCircle() {
 }
 
     function startGame() {
+	setWindowSize();
+    	setCircleRadius();
 	document.getElementById('backgroundVideo').style.display = 'block';
         document.getElementById('startGameBtn').style.display = 'none';
         document.getElementById('title').style.display = 'none';
