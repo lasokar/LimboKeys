@@ -185,7 +185,7 @@
     let positions = [];
     let gridIDs = [];
     const gridSize = { rows: 4, cols: 2 };
-    let windowSize = { width: 100, height: 181 };
+    let windowSize = { width: 100, height: 175 };
     const spacing = { x: 200, y: 200 };  // Default if it fails to be changed afterwards
     const totalShuffleTime = 8450;
     const backgroundImage = 'assets/images/keys/key.png';
@@ -254,8 +254,8 @@
     ];
 
     function openTestPopups() {
-        const win1 = window.open('', '_blank', 'width=200,height=200');
-        const win2 = window.open('', '_blank', 'width=200,height=200');
+        const win1 = window.open('', '_blank', 'width=100,height=100');
+        const win2 = window.open('', '_blank', 'width=100,height=100');
         
         if (win1 && win2) {
             if (startGameBtn.style.display == 'none') {
@@ -539,6 +539,7 @@ function spinCircle() {
     	}, 1500);
 
         openWindows();
+	updateWindowSizes();
 	keepWindowsOnTop();
         flashCorrectKeyImage();
         setTimeout(() => {
