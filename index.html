@@ -185,8 +185,8 @@
     let positions = [];
     let gridIDs = [];
     const gridSize = { rows: 4, cols: 2 };
-    const windowSize = { width: 100, height: 100 }; // default if it fails to be changed afterwards
-    const spacing = { x: 200, y: 200 };  // default if it fails to be changed afterwards
+    const windowSize = { width: 100, height: 100 };
+    const spacing = { x: 200, y: 200 };  // Default if it fails to be changed afterwards
     const totalShuffleTime = 8450;
     const backgroundImage = 'key.png';
     const transitionDuration = 3000;
@@ -428,12 +428,9 @@ function shuffleGrid(patternIndex) {
         }
     }
 
-    function setWindowSize() {
+    function setGridSpacing() {
         const screenWidth = window.innerWidth;
         const screenHeight = window.innerHeight;
-
-        windowSize.width = screenWidth * 0.1;
-        windowSize.height = screenHeight * 0.1;
 
         spacing.x = screenWidth * 0.15;
         spacing.y = screenHeight * 0.25;
@@ -512,7 +509,7 @@ function spinCircle() {
 }
 
     function startGame() {
-	setWindowSize();
+	setGridSpacing();
     	setCircleRadius();
 	document.getElementById('backgroundVideo').style.display = 'block';
         document.getElementById('startGameBtn').style.display = 'none';
