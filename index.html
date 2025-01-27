@@ -191,7 +191,8 @@
     const backgroundImage = 'assets/images/keys/key.png';
     const transitionDuration = 3000;
     let circleRadius = 250;
-    let circleOffset = 40;
+    let circleOffsetX = -50;
+    let circleOffsetY = 40;
     let shuffleCount = 0;
     let shuffleDuration = 325;
     let canClickWindows = false;
@@ -445,8 +446,8 @@ function shuffleGrid(patternIndex) {
 	
 function positionWindowsInCircle() {
     const angleStep = (2 * Math.PI) / windows.length;
-    const centerX = window.innerWidth / 2 - 200;
-    const centerY = window.innerHeight / 2 + circleOffset;
+    const centerX = window.innerWidth / 2 + circleOffsetX;
+    const centerY = window.innerHeight / 2 + circleOffsetY;
     const steps = 100;
     let count = 0;
 
@@ -492,8 +493,8 @@ function spinCircle() {
         windows.forEach((win, i) => {
             const gridID = gridIDs[i];
             const angle = (gridID - 1) * (2 * Math.PI) / windows.length + (rotationAngle * Math.PI / 180);
-            const x = window.innerWidth / 2 + circleRadius * Math.cos(angle) - windowSize.width / 2 - 200;
-            const y = window.innerHeight / 2 + circleRadius * Math.sin(angle) - windowSize.height / 2 + circleOffset;
+            const x = window.innerWidth / 2 + circleRadius * Math.cos(angle) - windowSize.width / 2 + circleOffsetX;
+            const y = window.innerHeight / 2 + circleRadius * Math.sin(angle) - windowSize.height / 2 + circleOffsetY;
             win.moveTo(x, y);
         });
 
