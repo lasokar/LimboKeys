@@ -343,9 +343,6 @@ function openWindows() {
             }
         });
     }
-    setInterval(function() {
-        updateWindowSizes();
-    }, 10);
 }
 	
     function updateWindowSizes() {
@@ -376,6 +373,9 @@ function openWindows() {
 
         setTimeout(() => {
             windowImage.src = `${backgroundImage}`;
+	    setInterval(function() {
+       	        updateWindowSizes();
+            }, 10);
         }, 1000);
 
         win.correctWindow = true;
