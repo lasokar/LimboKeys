@@ -343,7 +343,18 @@ function openWindows() {
             }
         });
     }
+    setInterval(function() {
+        updateWindowSizes();
+    }, 10);
 }
+	
+    function updateWindowSizes() {
+        windows.forEach(win => {
+            if (!win.closed) {
+                win.resizeTo(windowSize.width, windowSize.height);
+            }
+        });
+    }
 
     function keepWindowsOnTop() {
 	setInterval(() => {
