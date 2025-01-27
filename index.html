@@ -281,6 +281,7 @@
 function openWindows() {
     const screenWidth = window.innerWidth;
     const offsetX = (screenWidth / 2) - 200;
+    const offsetY = (screenWidth / 10);
     const colors = {
             'key1.png': '#ff2020',
             'key2.png': '#20ff20',
@@ -294,7 +295,7 @@ function openWindows() {
 	
     for (let i = 0; i < gridSize.rows * gridSize.cols; i++) {
         const x = offsetX + (i % gridSize.cols) * spacing.x;
-        const y = Math.floor(i / gridSize.cols) * spacing.y + 100;
+        const y = offsetY + Math.floor(i / gridSize.cols) * spacing.y;
 
         const win = window.open('', '_blank', `width=100,height=100,left=${x},top=${y},scrollbars=no`);
 	win.document.head.innerHTML += `<link rel="icon" type="image/png" href="assets/images/keys/key.png">`;
