@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Limbo Keys</title>
-    <link rel="icon" type="image/png" href="key.png">
+    <link rel="icon" type="image/png" href="favicon.png">
     <style>
 	@font-face {
             font-family: 'Pusab';
-            src: url('pusab.otf') format('opentype');
+            src: url('assets/fonts/pusab.otf') format('opentype');
         }
         body {
 	    font-family: Arial, sans-serif;
 	    text-align: center;
-	    background-image: url('MenuBG.png');
+	    background-image: url('assets/images/backgrounds/MenuBG.png');
 	    background-size: cover;
 	    background-position: center;
 	    background-repeat: no-repeat;
@@ -27,7 +27,7 @@
 	    cursor: pointer;
 	    font-size: 16px;
 	    margin-top: 20px;
-	    background-image: url('play.png');
+	    background-image: url('assets/images/menu/play.png');
 	    background-size: contain;
 	    background-repeat: no-repeat;
 	    background-position: center;
@@ -89,7 +89,7 @@
    	  text-align: center;
 	}
 	.ending-background {
-    	   background-image: url('EndingBG.png');
+    	   background-image: url('assets/images/backgrounds/EndingBG.png');
    	   background-size: 100vh;
   	   background-repeat: repeat-x;
     	   animation: scrollBackground 1000000s linear infinite;
@@ -107,7 +107,7 @@
           appearance: none;
           width: 420px;
           height: 32px;
-          background: url('slider.png');
+          background: url('assets/images/menu/slider.png');
           background-size: cover;
           border-radius: 6px;
           outline: none;
@@ -117,13 +117,13 @@
           appearance: none;
           width: 50px;
           height: 50px;
-          background: url('slider_thumb.png');
+          background: url('assets/images/menu/slider_thumb.png');
           background-size: cover;
           border: none;
           cursor: pointer;
         }
         input[type=range]:active::-webkit-slider-thumb {
-          background: url('slider_thumb_active.png');
+          background: url('assets/images/menu/slider_thumb_active.png');
           background-size: cover;
         }
 	#difficultyHeader {
@@ -164,21 +164,21 @@
 </head>
 <body>
     <video id="backgroundVideo" muted>
-        <source src="GameBG.mp4" type="video/mp4">
+        <source src="assets/media/GameBG.mp4" type="video/mp4">
     </video>
-    <img id="title" src="title.png" draggable="false"/>
-    <img id="popups" src="popupsalert.png" draggable="false"/>
+    <img id="title" src="assets/images/text/title.png" draggable="false"/>
+    <img id="popups" src="assets/images/text/popupsalert.png" draggable="false"/>
     <div class="button-container">
         <button id="startGameBtn" class="start-button" onclick="startGame()"/>
     </div>
     <div class="slider-container">
-	<img src="difficulty.png" alt="Difficulty:" id="difficultyHeader" draggable="false"></img>
+	<img src="assets/images/text/difficulty.png" alt="Difficulty:" id="difficultyHeader" draggable="false"></img>
         <input type="range" id="difficultySlider" min="20" max="35" value="26" step="1">
     </div>
     <div class="difficulty-text-container" id="difficultyTextContainer">
         <input class="difficulty-text" type="text" id="difficultyText" value="7" maxlength="2">
     </div>
-    <audio id="limboAudio" src="limbo.mp3" preload="auto"></audio>
+    <audio id="limboAudio" src="assets/media/limbo.mp3" preload="auto"></audio>
 	
 <script>
     const windows = [];
@@ -280,14 +280,14 @@ function openWindows() {
     const screenWidth = window.innerWidth;
     const offsetX = (screenWidth - (gridSize.cols * spacing.x)) / 2;
     const colors = {
-            'key1.png': '#ff2020',
-            'key2.png': '#20ff20',
-            'key3.png': '#44fcfc',
-            'key4.png': '#9404d4',
-            'key5.png': '#fcfc84',
-            'key6.png': '#84fcb4',
-            'key7.png': '#445ccc',
-            'key8.png': '#f45cfc'
+            'assets/images/keys/key1.png': '#ff2020',
+            'assets/images/keys/key2.png': '#20ff20',
+            'assets/images/keys/key3.png': '#44fcfc',
+            'assets/images/keys/key4.png': '#9404d4',
+            'assets/images/keys/key5.png': '#fcfc84',
+            'assets/images/keys/key6.png': '#84fcb4',
+            'assets/images/keys/key7.png': '#445ccc',
+            'assets/images/keys/key8.png': '#f45cfc'
         };
 	
     for (let i = 0; i < gridSize.rows * gridSize.cols; i++) {
@@ -295,7 +295,7 @@ function openWindows() {
         const y = Math.floor(i / gridSize.cols) * spacing.y + 100;
 
         const win = window.open('', '_blank', `width=${windowSize.width},height=${windowSize.height},left=${x},top=${y}`);
-	win.document.head.innerHTML += `<link rel="icon" type="image/png" href="key.png">`;
+	win.document.head.innerHTML += `<link rel="icon" type="image/png" href="assets/images/keys/key.png">`;
         win.document.write(`
             <style>
                 body {
@@ -357,7 +357,7 @@ function openWindows() {
         const correctIndex = Math.floor(Math.random() * windows.length);
         const win = windows[correctIndex];
         const windowImage = win.document.getElementById(`windowImage${correctIndex}`);
-        const correctKeyImage = 'green-key.png';
+        const correctKeyImage = 'assets/images/keys/green-key.png';
 
         windowImage.src = correctKeyImage;
 
@@ -424,7 +424,7 @@ function shuffleGrid(patternIndex) {
             const windowImage = win.document.getElementById(`windowImage${i}`);
             const key = 'key';
             const imageId = gridIDs[i];
-            windowImage.src = `${key}${imageId}.png`;
+            windowImage.src = `assets/images/keys/${key}${imageId}.png`;
         }
     }
 
