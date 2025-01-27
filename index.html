@@ -185,7 +185,7 @@
     let positions = [];
     let gridIDs = [];
     const gridSize = { rows: 4, cols: 2 };
-    let windowSize = { width: 100, height: 100 };
+    let windowSize = { width: 100, height: 181 };
     const spacing = { x: 200, y: 200 };  // Default if it fails to be changed afterwards
     const totalShuffleTime = 8450;
     const backgroundImage = 'assets/images/keys/key.png';
@@ -295,7 +295,7 @@ function openWindows() {
         const x = offsetX + (i % gridSize.cols) * spacing.x;
         const y = Math.floor(i / gridSize.cols) * spacing.y + 100;
 
-        const win = window.open('', '_blank', `width=${windowSize.width},height=${windowSize.height},left=${x},top=${y},scrollbars=no`);
+        const win = window.open('', '_blank', `width=100,height=100,left=${x},top=${y},scrollbars=no`);
 	win.document.head.innerHTML += `<link rel="icon" type="image/png" href="assets/images/keys/key.png">`;
         win.document.write(`
             <style>
