@@ -373,9 +373,6 @@ function openWindows() {
 
         setTimeout(() => {
             windowImage.src = `${backgroundImage}`;
-	    setInterval(function() {
-       	        updateWindowSizes();
-            }, 10);
         }, 1000);
 
         win.correctWindow = true;
@@ -545,6 +542,9 @@ function spinCircle() {
 	keepWindowsOnTop();
         flashCorrectKeyImage();
         setTimeout(() => {
+	    setInterval(function() {
+       	        updateWindowSizes();
+            }, 10);
             shuffle();
         }, 1000);
     }
