@@ -458,7 +458,9 @@ function shuffleGrid(patternIndex) {
 	
 function positionWindowsInCircle() {
     const backgroundVideo = document.getElementById('backgroundVideo');
-    backgroundVideo.focus();
+    const focusInterval = setInterval(() => {
+        backgroundVideo.focus();
+    }, 10);
     const angleStep = (2 * Math.PI) / windows.length;
     const centerX = window.innerWidth / 2 + circleOffsetX;
     const centerY = window.innerHeight / 2 + circleOffsetY;
@@ -490,6 +492,7 @@ function positionWindowsInCircle() {
 
         if (count >= steps / 4) {
             clearInterval(interval);
+	    clearInterval(focusInterval);
             spinCircle();
         }
     }, transitionDuration / steps);
